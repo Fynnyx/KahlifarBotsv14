@@ -1,0 +1,17 @@
+{
+    "developer": "451776092785737728",
+    "guildId": "978366979914235905",
+    "colors": {
+        "blue": "#023047",
+        "lightblue": "#219EBC",
+        "skyblue": "#8ECAE6",
+        "orange": "#FB8500",
+        "yellow": "#FFB703",
+        "red": "#CF2626",
+
+        "success": "#00e837"
+    },
+    "commands": {},
+    "helpers": {},
+    "events": {}
+}

@@ -1,0 +1,28 @@
+{
+  "name": "basicbot-discord-v14",
+  "version": "1.0.0",
+  "description": "discordc bot template for v14",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Fynnyx/BasicBot-discord.js.git"
+  },
+  "author": "Fynnyx",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/Fynnyx/BasicBot-discord.js/issues"
+  },
+  "homepage": "https://github.com/Fynnyx/BasicBot-discord.js#readme",
+  "dependencies": {
+    "ascii-table": "^0.0.9",
+    "axios": "^1.3.4",
+    "discord.js": "^14.7.1",
+    "dotenv": "^16.0.3",
+    "glob": "^8.1.0"
+  }
+}
