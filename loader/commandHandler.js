@@ -19,7 +19,6 @@ async function loadCommands(client) {
             asciiTable.addRow(command.data.name, "✅");
         } catch (err) {
             console.error(err);
-            console.log(command);
             asciiTable.addRow(command.data.name, `❌ -> ${err.message}`);
         }
     }

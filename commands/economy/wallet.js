@@ -13,6 +13,7 @@ module.exports = {
      * @param {Client} client
      */
     async execute(interaction, client) {
+        await interaction.deferReply()
         const user = interaction.options.getUser('user') || interaction.user;
 
         const wallet = await getWalletByUserId(
@@ -44,6 +45,6 @@ module.exports = {
         })
         .setTimestamp()
 
-        interaction.reply({embeds: [walletEmbed]})
+        interaction.editReply({embeds: [walletEmbed]})
     }
 };

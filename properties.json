@@ -12,6 +12,10 @@
         "success": "#00e837"
     },
     "commands": {},
-    "helpers": {},
+    "helpers": {
+        "send": {
+            "deleteTime": 5
+        }
+    },
     "events": {}
 }

@@ -4,7 +4,6 @@ const { addBalance, removeBalance, setBalance } = require('../../helper/api/econ
 const { sendSuccess } = require('../../helper/util/send.js');
 
 module.exports = {
-    developer: true,
     data: new SlashCommandBuilder()
         .setName('balance')
         .setDescription('Get all information about a user!')
@@ -41,7 +40,7 @@ module.exports = {
         const user = interaction.options.getUser('user');
         const coins = interaction.options.getInteger('coins');
         const emeralds = interaction.options.getInteger('emeralds');
-        const apidcuser = await getDCUser(user.id, client);
+        const apidcuser = await getDCUser(user.id);
 
         switch (subcommand) {
             case 'add':

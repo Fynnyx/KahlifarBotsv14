@@ -14,8 +14,7 @@ module.exports = {
      */
     async execute(interaction, client) {
         const user = interaction.options.getUser('user');
-        console.log(user);
-        const apidcuser = await getDCUser(user.id, client);
+        const apidcuser = await getDCUser(user.id);
         const member = interaction.guild.members.cache.get(user.id);
         const roles = member.roles.cache.map(role => role.toString()).join(' ');
         const userinfoEmbed = new EmbedBuilder()
