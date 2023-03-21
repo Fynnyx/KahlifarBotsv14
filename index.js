@@ -1,6 +1,7 @@
 const { Client, GatewayIntentBits, Partials, Collection } = require("discord.js")
 const { Guilds, GuildMembers, GuildMessages } = GatewayIntentBits
 const { User, Message, GuildMember, ThreadMember } = Partials
+const logger = require("./loader/logger")
 const dotenv = require("dotenv")
 
 const { loadEvents } = require("./loader/eventHandler")
@@ -25,6 +26,7 @@ const client = new Client({
 client.config = require("./properties.json")
 client.events = new Collection()
 client.commands = new Collection()
+client.logger = logger
 
 // Load events, commands
 loadEvents(client)

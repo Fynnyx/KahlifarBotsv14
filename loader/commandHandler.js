@@ -2,7 +2,7 @@ async function loadCommands(client) {
     const { loadFiles } = require('../helper/fileLoader');
     const ascii = require('ascii-table');
     const asciiTable = new ascii("Commands");
-    asciiTable.setHeading("Command", "Load status");
+    asciiTable.setHeading("Command", "Description", "Load status");
 
     // Clear the commands collection
     await client.commands.clear();
@@ -13,13 +13,14 @@ async function loadCommands(client) {
 
     for (const file of files) {
         const command = require(file);
+        if (!command.data) continue;
         try {
             client.commands.set(command.data.name, command);
             commandsArray.push(command.data.toJSON());
-            asciiTable.addRow(command.data.name, "✅");
+            asciiTable.addRow(command.data.name, command.data.description, "✅");
         } catch (err) {
             console.error(err);
-            asciiTable.addRow(command.data.name, `❌ -> ${err.message}`);
+            asciiTable.addRow(command.data.name, command.data.description, `❌ -> ${err.message}`);
         }
     }
     client.application.commands.set(commandsArray);

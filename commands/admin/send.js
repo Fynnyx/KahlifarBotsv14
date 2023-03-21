@@ -1,6 +1,9 @@
-const { ChatInputCommandInteraction, SlashCommandBuilder } = require('discord.js');
+const { ChatInputCommandInteraction, SlashCommandBuilder, ActionRowBuilder } = require('discord.js');
 const { sendError, sendSuccess } = require('../../helper/util/send.js');
 const { getCMSEmbed, createCMSEmbed } = require('../../helper/cms/embed.js');
+const { getCMSText } = require('../../helper/cms/text.js');
+const { getCMSSelect, createCMSSelect } = require('../../helper/cms/select.js');
+const { isRoleSelect } = require('../../helper/components/select.js'); 
 
 module.exports = {
     developer: true,
@@ -94,6 +97,34 @@ module.exports = {
                     embeds: [await createCMSEmbed(embedData[0].attributes)],
                 });
                 sendSuccess("Embed sent", `Sent the embed **${name}** to the channel!`, interaction, client);
+                break;
+            case 'text':
+                var textData = await getCMSText(name);
+                if (!textData[0]) return sendError("An error occured", 'No text found with that name!', interaction, client );
+                for (const text of textData[0].attributes.texts) {
+                    channel.send(text.value);
+                }
+                sendSuccess("Text sent", `Sent the text **${name}** to the channel!`, interaction, client);
+                break;
+            case 'select':
+                var selectData = await getCMSSelect(name);
+                let type
+                if (!selectData[0]) return sendError("An error occured", 'No select found with that name!', interaction, client );
+                
+                if (await isRoleSelect(selectData[0].attributes.data.customId)) {
+                    type = 'roles'
+                }
+                const row = new ActionRowBuilder()
+                    .addComponents(
+                        await createCMSSelect(selectData[0].attributes, type)
+                    );
+
+
+                channel.send({
+                    content: selectData[0].attributes.data.Message,
+                    components: [row]
+                });
+                sendSuccess("Select sent", `Sent the select **${name}** to the channel!`, interaction, client);
                 break;
             default:
                 return sendError(

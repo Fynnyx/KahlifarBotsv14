@@ -4,7 +4,7 @@ async function loadEvents(client) {
     const { loadFiles } = require('../helper/fileLoader');
     const ascii = require('ascii-table');
     const asciiTable = new ascii("Events");
-    asciiTable.setHeading("Event", "Load status");
+    asciiTable.setHeading("Event", "Usage", "Load status");
 
     // Clear the events collection
     await client.events.clear();
@@ -32,8 +32,9 @@ async function loadEvents(client) {
                     client.on(event.name, execute);
                 }
             }
-            asciiTable.addRow(event.name, "✅");
+            asciiTable.addRow(event.name, event.usage, "✅");
         } catch (err) {
+            console.info(asciiTable.toString());
             console.error(err);
             asciiTable.addRow(event.name, `❌ -> ${err.message}`);
         }

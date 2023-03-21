@@ -2,6 +2,7 @@ const { loadCommands } = require('../../loader/commandHandler');
 
 module.exports = {
     name: 'ready',
+    usage: 'ready',
     once: true,
     execute(client) {
         loadCommands(client)
