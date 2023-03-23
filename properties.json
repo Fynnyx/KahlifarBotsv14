@@ -12,6 +12,9 @@
         "success": "#00e837"
     },
     "commands": {},
+    "channels": {
+        "modConsole": "930362449738231838"
+    },
     "helpers": {
         "send": {
             "deleteTime": 5

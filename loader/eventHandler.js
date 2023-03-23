@@ -12,9 +12,8 @@ async function loadEvents(client) {
     const files = await loadFiles('events');
 
     for (const file of files) {
-        const event = require(file);
         try {
-
+            const event = require(file);
 
             const execute = (...args) => event.execute(...args, client);
             client.events.set(event.name, execute);
@@ -34,9 +33,10 @@ async function loadEvents(client) {
             }
             asciiTable.addRow(event.name, event.usage, "✅");
         } catch (err) {
-            console.info(asciiTable.toString());
             console.error(err);
-            asciiTable.addRow(event.name, `❌ -> ${err.message}`);
+            const path = file.split('/');
+            const fileName = path[path.length - 1];
+            asciiTable.addRow(fileName, "!! Error occured !!", `❌ -> ${err.message}`);
         }
     }
     return console.info(asciiTable.toString());

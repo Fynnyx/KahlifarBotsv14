@@ -11,6 +11,7 @@ async function registerNewUser(member) {
         {
             firstJoinDate: member.joinedTimestamp,
             lastJoinDate: member.joinedTimestamp,
+            isMainUser: true,
             discordId: member.id,
             user: {
                 id: newUser.id

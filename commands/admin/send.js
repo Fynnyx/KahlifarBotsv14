@@ -1,12 +1,13 @@
-const { ChatInputCommandInteraction, SlashCommandBuilder, ActionRowBuilder } = require('discord.js');
+const { ChatInputCommandInteraction, SlashCommandBuilder, ActionRowBuilder, ButtonBuilder } = require('discord.js');
 const { sendError, sendSuccess } = require('../../helper/util/send.js');
 const { getCMSEmbed, createCMSEmbed } = require('../../helper/cms/embed.js');
 const { getCMSText } = require('../../helper/cms/text.js');
 const { getCMSSelect, createCMSSelect } = require('../../helper/cms/select.js');
-const { isRoleSelect } = require('../../helper/components/select.js'); 
+const { isRoleSelect } = require('../../helper/components/select.js');
+const { default: axios } = require('axios');
 
 module.exports = {
-    developer: true,
+    developer: false,
     data: new SlashCommandBuilder()
         .setName('send')
         .setDescription('Send a message to a channel!')
@@ -69,7 +70,12 @@ module.exports = {
                 .addSubcommand(subcommand =>
                     subcommand
                         .setName('information')
-                        .setDescription('Send a message to a channel!')
+                        .setDescription('Send the information component to a channel!')
+                )
+                .addSubcommand(subcommand =>
+                    subcommand
+                        .setName('verify')
+                        .setDescription('Send the verify Button to a channel!')
                 )
         ),
     /**
@@ -88,29 +94,79 @@ module.exports = {
             await channel.bulkDelete(100);
         }
 
+        if (subcommandGroup) {
+            switch (subcommandGroup) {
+                case 'extra':
+                    switch (subcommand) {
+                        case 'information':
+                            let informationData = await axios.get(
+                                `${process.env.CMS_URL}/api/information?populate[content][populate]=*`,
+                                {
+                                    headers: {
+                                        Authorization: `Bearer ${process.env.CMS_TOKEN}`,
+                                    },
+                                }
+                            )
+                            informationData = informationData.data
+                            for (const contentItem of informationData.data.attributes.content) {
+                                if (contentItem.__component == 'image.image') {
+                                    const image = contentItem.image.data.attributes.url
+                                    await channel.send({
+                                        files: [process.env.CMS_URL + image]
+                                    })
+                                }
+                                if (contentItem.__component == 'text.text') {
+                                    const text = contentItem.value
+                                    await channel.send(text)
+                                }
+                            }
+                            return sendSuccess("Information sent", `Sent the **information** to the channel!`, interaction, client);
+                        
+                        case 'verify':
+                            const verifyEmbedData = await getCMSEmbed('verify');
+                            if (!verifyEmbedData[0]) return sendError("An error occured", 'No embed found with that name!', interaction, client);
+
+                            const verifyEmbed = await createCMSEmbed(verifyEmbedData[0].attributes);
+                            const verifyRow = new ActionRowBuilder()
+                                .addComponents(
+                                    new ButtonBuilder()
+                                        .setCustomId('verify')
+                                        .setLabel('✅-Verify')
+                                        .setStyle('Success')
+                                )
+                            await channel.send({
+                                embeds: [verifyEmbed],
+                                components: [verifyRow]
+                            })
+                            return sendSuccess("Verify sent", `Sent the **verify Component** to the channel!`, interaction, client);
+                    }
+                    break;
+            }
+        }
+
         switch (subcommand) {
             case 'embed':
                 var embedData = await getCMSEmbed(name);
-                if (!embedData[0]) return sendError("An error occured", 'No embed found with that name!', interaction, client );
+                if (!embedData[0]) return sendError("An error occured", 'No embed found with that name!', interaction, client);
 
-                channel.send({
+                await channel.send({
                     embeds: [await createCMSEmbed(embedData[0].attributes)],
                 });
-                sendSuccess("Embed sent", `Sent the embed **${name}** to the channel!`, interaction, client);
+                sendSuccess("Embed sent", `Sent the embed **${name} ** to the channel!`, interaction, client);
                 break;
             case 'text':
                 var textData = await getCMSText(name);
-                if (!textData[0]) return sendError("An error occured", 'No text found with that name!', interaction, client );
+                if (!textData[0]) return sendError("An error occured", 'No text found with that name!', interaction, client);
                 for (const text of textData[0].attributes.texts) {
-                    channel.send(text.value);
+                    await channel.send(text.value);
                 }
-                sendSuccess("Text sent", `Sent the text **${name}** to the channel!`, interaction, client);
+                sendSuccess("Text sent", `Sent the text ** ${name}** to the channel!`, interaction, client);
                 break;
             case 'select':
                 var selectData = await getCMSSelect(name);
                 let type
-                if (!selectData[0]) return sendError("An error occured", 'No select found with that name!', interaction, client );
-                
+                if (!selectData[0]) return sendError("An error occured", 'No select found with that name!', interaction, client);
+
                 if (await isRoleSelect(selectData[0].attributes.data.customId)) {
                     type = 'roles'
                 }
@@ -120,11 +176,11 @@ module.exports = {
                     );
 
 
-                channel.send({
+                await channel.send({
                     content: selectData[0].attributes.data.Message,
                     components: [row]
                 });
-                sendSuccess("Select sent", `Sent the select **${name}** to the channel!`, interaction, client);
+                sendSuccess("Select sent", `Sent the select ** ${name}** to the channel!`, interaction, client);
                 break;
             default:
                 return sendError(

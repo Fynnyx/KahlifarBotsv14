@@ -6,7 +6,7 @@ const { sendSuccess } = require('../../helper/util/send.js');
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('balance')
-        .setDescription('Get all information about a user!')
+        .setDescription('Update a user\'s balance')
         .setDefaultMemberPermissions(PermissionFlagsBits.ModerateMembers)
         .addSubcommand(subcommand => subcommand
             .setName('add')
