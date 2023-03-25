@@ -18,7 +18,16 @@ async function registerDCUser(dcuser) {
     }
 }
 
+async function getMainDCUser(discordUsers) {
+    for (const user of discordUsers) {
+        if (user.isMainUser) {
+            return user;
+        }
+    }
+}
+
 module.exports = {
     getDCUser,
-    registerDCUser
+    registerDCUser,
+    getMainDCUser
 }

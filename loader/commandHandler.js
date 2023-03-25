@@ -19,7 +19,7 @@ async function loadCommands(client) {
             commandsArray.push(command.data.toJSON());
             asciiTable.addRow(command.data.name, command.data.description, "✅");
         } catch (err) {
-            console.error(err);
+            client.logger.error(err);
             const filePathArray = file.split("/")
             const fileName = filePathArray[filePathArray.length - 1];
             asciiTable.addRow(fileName, "!! Error occured !!", `❌ -> ${err.message}`);

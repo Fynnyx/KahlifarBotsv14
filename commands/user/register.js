@@ -25,7 +25,6 @@ module.exports = {
                 interaction,
                 client);
         } else {
-            console.log("MemberReturn: " + newMemberReturn);
             await sendError(
                 "An error occured",
                 newMemberReturn,

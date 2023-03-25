@@ -1,6 +1,8 @@
-const {ChatInputCommandInteraction, SlashCommandBuilder, PermissionFlagsBits, Client} = require('discord.js');
-const {loadCommands} = require('../../loader/commandHandler');
-const {loadEvents} = require('../../loader/eventHandler');
+const { ChatInputCommandInteraction, SlashCommandBuilder, PermissionFlagsBits, Client } = require('discord.js');
+const { sendInfo, sendSuccess } = require('../../helper/util/send');
+const { loadCommands } = require('../../loader/commandHandler');
+const { loadEvents } = require('../../loader/eventHandler');
+const { cli } = require('winston/lib/winston/config');
 
 module.exports = {
     developer: true,
@@ -21,26 +23,30 @@ module.exports = {
      */
 
     async execute(interaction, client) {
-        const subcommand = interaction.options.getSubcommand();
-        switch (subcommand) {
-            case 'commands':
-                console.info('Reloading commands...');
-                await loadCommands(client);
-                interaction.reply({
-                    content: `Reloaded ${client.commands.size} commands!`,
-                    ephemeral: true
-                })
-                break;
-            case 'events':
-                for (const [key, value] of client.events)
-                client.removeListener(`${key}`, value, true);
-                console.info('Reloading events...');
-                await loadEvents(client);
-                interaction.reply({
-                    content: `Reloaded ${client.events.size} events!`,
-                    ephemeral: true
-                })
-                break;
+        await interaction.deferReply({ ephemeral: true });
+        try {
+            const subcommand = interaction.options.getSubcommand();
+            switch (subcommand) {
+                case 'commands':
+                    client.logger.info('Reloading commands...');
+                    await sendInfo("Reload", "Reloading commands...", interaction, client)
+                    await loadCommands(client);
+                    client.logger.info(`Reloaded ${client.commands.size} commands!`);
+                    await sendSuccess("Reload", `Reloaded ${client.commands.size} commands!`, interaction, client)
+                    break;
+                case 'events':
+                    for (const [key, value] of client.events)
+                        client.removeListener(`${key}`, value, true);
+                    client.logger.info('Reloading events...');
+                    await sendInfo("Reload", "Reloading events...", interaction, client)
+                    await loadEvents(client);
+                    client.logger.info(`Reloaded ${client.events.size} events!`);
+                    await sendSuccess("Reload", `Reloaded ${client.events.size} events!`, interaction, client)
+                    break;
+            }
+        } catch (error) {
+            client.logger.error(`Error while reloading\n${error}`);
+            await sendError("Reload", `Error while reloading\n${error}`, interaction, client)
         }
     }
 }

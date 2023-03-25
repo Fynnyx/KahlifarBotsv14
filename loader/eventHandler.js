@@ -33,7 +33,7 @@ async function loadEvents(client) {
             }
             asciiTable.addRow(event.name, event.usage, "✅");
         } catch (err) {
-            console.error(err);
+            client.logger.error(err);
             const path = file.split('/');
             const fileName = path[path.length - 1];
             asciiTable.addRow(fileName, "!! Error occured !!", `❌ -> ${err.message}`);

@@ -1,6 +1,6 @@
 const { EmbedBuilder } = require('discord.js');
 
-exports.createSendEmbed = (title, description, color, client) => {
+createSendEmbed = (title, description, color, client) => {
     const embed = new EmbedBuilder()
         .setTitle(title)
         .setColor(color)
@@ -14,9 +14,13 @@ exports.createSendEmbed = (title, description, color, client) => {
     return embed;
 }
 
-exports.handleSendMessage = async (message, embed, doDelete, ephemeral, client) => {
+handleSendMessage = async (message, embed, doDelete, ephemeral, client) => {
     var msg
-    msg = message.editReply({ embeds: [embed], fetchReply: true })
+    if (message.deferred) {
+        msg = await message.editReply({content: null,  embeds: [embed], components: [], fetchReply: true })
+    } else {
+        msg = await message.reply({ embeds: [embed], ephemeral: ephemeral })
+    }
     if (doDelete && !ephemeral) {
         await sleep(client.config.helpers.send.deleteTime)
         msg.delete()
@@ -24,23 +28,30 @@ exports.handleSendMessage = async (message, embed, doDelete, ephemeral, client) 
 }
 
 
-exports.sendSuccess = async (title, description, message, client, doDelete=false, ephemeral=true) => {
+async function sendSuccess(title, description, message, client, doDelete=false, ephemeral=true) {
     let successEmbed = this.createSendEmbed(`✅ Success - ${title}`, description, client.config.colors.success, client)
     this.handleSendMessage(message, successEmbed, doDelete, ephemeral)
 }
 
 
-exports.sendError = async (title = "An error occured", description, message, client, doDelete=false, ephemeral=true) => {
+async function sendError(title = "An error occured", description, message, client, doDelete=false, ephemeral=true) {
     let errorEmbed = this.createSendEmbed(`❌ Error - ${title}`, description, client.config.colors.red, client)
     this.handleSendMessage(message, errorEmbed, doDelete, ephemeral)
 }
 
-exports.sendInfo = async (title, description, message, client, doDelete=false, ephemeral=true) => {
+async function sendInfo(title, description, message, client, doDelete=false, ephemeral=true) {
     let infoEmbed = this.createSendEmbed(`ℹ️ Info - ${title}`, description, client.config.colors.lightblue, client)
     this.handleSendMessage(message, infoEmbed, doDelete, ephemeral)
 }
 
-exports.sendWarning = async (title, description, message, client, doDelete=false, ephemeral=true) => {
+async function sendWarning(title, description, message, client, doDelete=false, ephemeral=true) {
     let warningEmbed = this.createSendEmbed(`⚠️ Warning - ${title}`, description, client.config.colors.yellow, client)
     this.handleSendMessage(message, warningEmbed, doDelete, ephemeral)
+}
+
+module.exports = {
+    sendSuccess,
+    sendError,
+    sendInfo,
+    sendWarning
 }
