@@ -22,7 +22,6 @@ const client = new Client({
 		ThreadMember
 	],
 });
-
 client.config = require("./properties.json")
 client.events = new Collection()
 client.commands = new Collection()
@@ -30,6 +29,5 @@ client.logger = logger
 
 // Load events, commands
 loadEvents(client)
-
 
 client.login(process.env.TOKEN)

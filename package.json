@@ -1,7 +1,7 @@
 {
-  "name": "basicbot-discord-v14",
+  "name": "kahlifarbotv14",
   "version": "1.0.0",
-  "description": "discordc bot template for v14",
+  "description": "discord Bot for Kahlifar",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
