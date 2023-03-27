@@ -1,7 +1,7 @@
 {
   "name": "kahlifarbotv14",
   "version": "1.0.0",
-  "description": "discord Bot for Kahlifar",
+  "description": "Discord Bot for Kahlifar",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -10,14 +10,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Fynnyx/BasicBot-discord.js.git"
+    "url": "git+https://github.com/Kahlifar/KahlifarBotsv14.git"
   },
   "author": "Fynnyx",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/Fynnyx/BasicBot-discord.js/issues"
+    "url": "https://github.com/Kahlifar/KahlifarBotsv14/issues"
   },
-  "homepage": "https://github.com/Fynnyx/BasicBot-discord.js#readme",
+  "homepage": "https://github.com/Kahlifar/KahlifarBotsv14#kahlifarbotsv14",
   "dependencies": {
     "ascii-table": "^0.0.9",
     "axios": "^1.3.4",
