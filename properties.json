@@ -14,7 +14,8 @@
     },
     "commands": {},
     "channels": {
-        "modConsole": "930362449738231838"
+        "modConsole": "930362449738231838",
+        "welcome": "814232744892301342"
     },
     "helpers": {
         "send": {
