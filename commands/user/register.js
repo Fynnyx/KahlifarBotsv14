@@ -7,6 +7,7 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('register')
         .setDescription('Register a user to the database!')
+        .setDefaultMemberPermissions(PermissionFlagsBits.ModerateMembers)
         .addUserOption(option => option.setName('user').setDescription('The user you want to register').setRequired(true))
         .setDefaultMemberPermissions(PermissionFlagsBits.ModerateMembers),
     /**

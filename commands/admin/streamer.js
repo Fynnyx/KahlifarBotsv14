@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
+const { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } = require("discord.js");
 const { getAllChannels, createChannel, getChannelByTwitchName, deleteChannel } = require("../../helper/api/streamer");
 const { getMainDCUser, getDCUser } = require("../../helper/api/dcuser");
 const { sendError, sendSuccess } = require("../../helper/util/send");
@@ -7,6 +7,7 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName("streamer")
         .setDescription("Modify the the streamer notification list")
+        .setDefaultMemberPermissions(PermissionFlagsBits.ModerateMembers)
         .addSubcommand(subcommand =>
             subcommand
                 .setName("add")

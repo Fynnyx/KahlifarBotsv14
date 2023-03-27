@@ -1,4 +1,4 @@
-const { ChatInputCommandInteraction, SlashCommandBuilder, ActionRowBuilder, ButtonBuilder } = require('discord.js');
+const { ChatInputCommandInteraction, SlashCommandBuilder, ActionRowBuilder, ButtonBuilder, PermissionFlagsBits } = require('discord.js');
 const { sendError, sendSuccess } = require('../../helper/util/send.js');
 const { getCMSEmbed, createCMSEmbed } = require('../../helper/cms/embed.js');
 const { getCMSText } = require('../../helper/cms/text.js');
@@ -11,6 +11,7 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('send')
         .setDescription('Send a message to a channel!')
+        .setDefaultMemberPermissions(PermissionFlagsBits.ManageChannels)
         .addSubcommand(subcommand =>
             subcommand
                 .setName('text')
