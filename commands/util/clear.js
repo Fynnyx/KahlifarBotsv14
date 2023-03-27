@@ -14,7 +14,7 @@ module.exports = {
      */
     async execute(interaction, client) {
         try {
-            await interaction.deferReply({ ephermal: true });
+            await interaction.deferReply({ ephemeral: true });
             const amount = interaction.options.getInteger('amount')
             const channel = interaction.channel;
             const messages = await channel.messages.fetch({ limit: amount == null || amount > 100 ? 100 : amount });
