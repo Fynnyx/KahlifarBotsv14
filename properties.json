@@ -15,11 +15,15 @@
     "commands": {},
     "channels": {
         "modConsole": "930362449738231838",
-        "welcome": "814232744892301342"
+        "welcome": "814232744892301342",
+        "streamNotification": "942074209037856860"
     },
     "helpers": {
         "send": {
             "deleteTime": 5
+        },
+        "streamNotification": {
+            "interval": 5 
         }
     },
     "roles": {
