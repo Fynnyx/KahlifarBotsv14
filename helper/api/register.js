@@ -10,7 +10,7 @@ async function registerNewUser(member) {
     const newDCUser = await registerDCUser(
         {
             firstJoinDate: member.joinedTimestamp,
-            lastJoinDate: member.joinedTimestamp,
+            lastJoinDate: new Date(),
             isMainUser: true,
             discordId: member.id,
             user: {
