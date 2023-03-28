@@ -3,7 +3,7 @@ const { sendError } = require('../../helper/util/send');
 const { createHelpEmbed } = require('../../helper/util/help');
 
 module.exports = {
-    developer: true,
+    developer: false,
     data: new SlashCommandBuilder()
         .setName('help')
         .setDescription('Get help with the bot\'s commands!')
