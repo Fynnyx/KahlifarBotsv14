@@ -23,6 +23,7 @@
             "deleteTime": 5
         },
         "streamNotification": {
+            "pingRole": "941712142112002048",
             "interval": 0.2
         }
     },

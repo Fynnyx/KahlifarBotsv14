@@ -52,7 +52,8 @@ module.exports = {
 
                 return modConsole.send({ embeds: [embed] });
             }
-
+            // fetch latest audit log entry for kicks
+            // it can only be older than 10 seconds
             const kickLogs = await member.guild.fetchAuditLogs({
                 limit: 1,
                 type: AuditLogEvent.MemberKick,

@@ -14,7 +14,6 @@ async function getEconomyInventoryByUserId(user) {
 
 async function createEconomyInventory(walletId, userId) {
     try {
-        console.log(walletId, userId);
         const newInventory = await axios.post(`${process.env.API_URL}/economy/inventories`, {
             wallet: {
                 id: walletId
@@ -22,7 +21,12 @@ async function createEconomyInventory(walletId, userId) {
             user: {
                 id: userId
             }
-        });
+        },
+            {
+                headers: {
+                    API_KEY: process.env.API_KEY
+                }
+            });
         return newInventory.data;
     } catch (error) {
         return {

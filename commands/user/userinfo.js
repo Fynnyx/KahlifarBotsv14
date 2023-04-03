@@ -1,4 +1,4 @@
-const {ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder} = require('discord.js');
+const {ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits} = require('discord.js');
 const {getUser} = require('../../helper/api/user.js');
 const {getDCUser} = require('../../helper/api/dcuser.js');
 
@@ -7,6 +7,7 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('userinfo')
         .setDescription('Get all information about a user!')
+        .setDefaultMemberPermissions(PermissionFlagsBits.ModerateMembers)
         .addUserOption(option => option.setName('user').setDescription('The user you want to see').setRequired(true)),
     /**
      * @param {ChatInputCommandInteraction} interaction
