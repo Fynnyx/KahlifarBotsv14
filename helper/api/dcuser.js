@@ -3,7 +3,11 @@ const client = require('../../index.js');
 
 async function getDCUser(discordId) {
     try {
-        const user = await axios.get(`${process.env.API_URL}/dcusers/byDiscordId/${discordId}`);
+        const user = await axios.get(`${process.env.API_URL}/dcusers/byDiscordId/${discordId}`, {
+            headers: {
+                API_KEY: process.env.API_KEY
+            }
+        });
         return user.data;
     } catch (error) {
         return {
@@ -15,7 +19,11 @@ async function getDCUser(discordId) {
 
 async function registerDCUser(dcuser) {
     try {
-        const newDCUser = await axios.post(`${process.env.API_URL}/dcusers`, dcuser);
+        const newDCUser = await axios.post(`${process.env.API_URL}/dcusers`, dcuser, {
+            headers: {
+                API_KEY: process.env.API_KEY
+            }
+        });
         return newDCUser.data;
     } catch (error) {
         return {
@@ -27,7 +35,11 @@ async function registerDCUser(dcuser) {
 
 async function updateDCUser(dcuserId, dcuser) {
     try {
-        const updatedDCUser = await axios.put(`${process.env.API_URL}/dcusers/${dcuserId}`, dcuser);
+        const updatedDCUser = await axios.put(`${process.env.API_URL}/dcusers/${dcuserId}`, dcuser, {
+            headers: {
+                API_KEY: process.env.API_KEY
+            }
+        });
         return updatedDCUser.data;
     } catch (error) {
         return {

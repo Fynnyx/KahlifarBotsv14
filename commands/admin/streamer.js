@@ -86,7 +86,6 @@ module.exports = {
                 await interaction.deferReply()
                 const channel = await getChannelByTwitchName(twitchName)
                 if (channel.isError) return sendError("Channel not found", `The channel **${twitchName}** was not found in the list`, interaction, client)
-                console.log(channel);
                 const deleteChannelResponse = await deleteChannel(channel.id)
                 if (deleteChannelResponse?.isError) return sendError("Error", `An error occured while deleting the channel **${twitchName}**\n${deleteChannelResponse.message}`, interaction, client);
                 return sendSuccess("Channel removed", `The channel **${twitchName}** was removed from the list`, interaction, client)
