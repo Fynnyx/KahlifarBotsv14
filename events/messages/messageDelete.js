@@ -20,14 +20,13 @@ module.exports = {
             for (const channel of dellogDisabledChannels.data[0].attributes.values) {
                 if (channel.value === message.channel.id) return;
             }
-            if (!deletionLog) return logToModConsole("Message Deleted", `Message by ${message.author} deleted in ${message.channel} but no relevant audit logs were found.`, client.config.colors.red, client);
+            if (!deletionLog) return logToModConsole("Message Deleted", `Message by \`${message.author.tag}\` deleted in ${message.channel} but no relevant audit logs were found.\n\n**Content:**\n${message.content}`, client.config.colors.red, client);
 
             const { executor, target } = deletionLog;
-
             if (target.id === message.author.id) {
-                return logToModConsole("Message Deleted", `Message by ${message.author} deleted in ${message.channel} by ${executor.tag}.`, client.config.colors.yellow, client);
+                return logToModConsole("Message Deleted", `Message by \`${message.author.tag}\` deleted in ${message.channel} by \`${executor.tag}\`.\n\n**Content:**\n${message.content}`, client.config.colors.yellow, client);
             }
-            return logToModConsole("Message Deleted", `Message by ${message.author} deleted in ${message.channel} but we don't know by who.`, client.config.colors.yellow, client);
+            return logToModConsole("Message Deleted", `Message by \`${message.author.tag}\` deleted in ${message.channel} but we don't know by who.\n\n**Content:**\n${message.content}`, client.config.colors.yellow, client);
         } catch (error) {
             client.logger.error("Error while messageDelete\n" + error)
         }

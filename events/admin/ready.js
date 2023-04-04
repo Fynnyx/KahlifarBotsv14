@@ -1,4 +1,5 @@
 const { loadCommands } = require('../../loader/commandHandler');
+const { startStreamNotificationInterval } = require('../../helper/components/streamNotification');
 
 module.exports = {
     name: 'ready',
@@ -7,6 +8,7 @@ module.exports = {
     execute(client) {
         try {
             loadCommands(client)
+            startStreamNotificationInterval(client)
             console.info(`\x1b[33m${client.user.username}\x1b[34m, logged in\x1b[0m`)
             client.logger.info(`${client.user.username}, logged in`)
         } catch (error) {
