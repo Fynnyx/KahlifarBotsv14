@@ -42,7 +42,8 @@ module.exports = {
             }
             banLog.entry = banLogs.entries.first();
             if (!banLog.entry) return;
-            if (banLog.entry.target.id == member.id) {
+            // Check if the log entry is newer than the last join date from the apiUser. User moment.js to compare the dates
+            if (banLog.entry.target.id == member.id && moment(new Date(apiUser.lastJoinDate)).isBefore(moment(new Date(banLog.entry.createdTimestamp))) ) {
                 banLog.target = banLog.entry.target;
                 banLog.executor = banLog.entry.executor;
                 banLog.reason = banLog.entry.reason;
@@ -66,7 +67,7 @@ module.exports = {
             }
             kickLog.entry = kickLogs.entries.first();
             if (!kickLog.entry) return;
-            if (kickLog.entry.target.id == member.id) {
+            if (kickLog.entry.target.id == member.id && moment(new Date(apiUser.lastJoinDate)).isBefore(moment(new Date(kickLog.entry.createdTimestamp)))) {
                 kickLog.target = kickLog.entry.target;
                 kickLog.executor = kickLog.entry.executor;
                 kickLog.reason = kickLog.entry.reason;
