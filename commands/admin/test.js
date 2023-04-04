@@ -15,9 +15,19 @@ module.exports = {
      * @param { Client } client
      */
     async execute(interaction, client) {
-        interaction.deferReply();
+        interaction.deferReply({ ephemeral: true });
 
         try {
+            // const dmChannel = await interaction.user.createDM();
+            // console.log(dmChannel.messages);
+            // for (const message of await dmChannel.messages.fetch()) {
+            //     console.log(message);
+            //     if (message[1].author.id !== client.user.id) continue;
+            //     message[1].delete();
+            // }
+
+            // ! --------------------------------------------
+
             // Fetch all members from the guild
             const members = await interaction.guild.members.fetch();
 
@@ -37,6 +47,7 @@ module.exports = {
 
             interaction.editReply({ content: 'Done!' });
         } catch (error) {
+            console.log(error);
             interaction.editReply({ content: 'An error occured!' });
         }
     }
