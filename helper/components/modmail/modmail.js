@@ -1,11 +1,15 @@
 const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js')
 const { getConversation, updateConversation } = require('../../api/modmail/conversation')
 const { getMainDCUser } = require('../../api/dcuser');
+const { sleep } = require('../../util/sleep');
 const moment = require('moment');
 
 
 async function updateModmailMessages(conversationId, client) {
     const conversation = await getConversation(conversationId, client)
+    // console.log("Messages:");
+    // console.log(conversation);
+    // console.log(conversation);
     if (conversation.isError) return
     const user = await getMainDCUser(conversation.user.discordUsers, client)
     const messages = conversation.messages
@@ -34,23 +38,26 @@ async function updateModmailMessages(conversationId, client) {
     }
 
     const modmailModActions = (await createModmailActions())
-    .addComponents(
-        new ButtonBuilder()
-            .setCustomId('modmail-ban')
-            .setLabel("🚫 Ban")
-            .setStyle(ButtonStyle.Danger),
-    )
-
+        .addComponents(
+            new ButtonBuilder()
+                .setCustomId('modmail-ban')
+                .setLabel("🚫 Ban")
+                .setStyle(ButtonStyle.Danger),
+        )
+    // console.log(conversation);
     modChannel.messages.fetch(conversation.lastMessageId)
         .then(async message => {
             message.edit({ embeds: [modmailEmbed], components: [modmailModActions] })
         })
         .catch(async error => {
             const modMessage = await modChannel.send({ embeds: [modmailEmbed], components: [modmailModActions], fetchReply: true })
-            conversation.lastMessageId = modMessage.id
+            conversation.lastMessageId = modMessage.id;
             await updateConversation(conversation.id, conversation, client)
         })
     await discordUser.send({ embeds: [modmailEmbed], components: [await createModmailActions()] })
+    console.log("Updated modmail messages");
+    await sleep(5)
+    console.log(await getConversation(conversationId, client));
 }
 
 async function createFieldStrings(messages) {

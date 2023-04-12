@@ -1,11 +1,7 @@
-const axios = require('axios');
+const { kahlifarCmsAxios } = require('../../loader/axios');
 
 async function getCMSSocials(name = undefined) {
-  const socialsData = await axios.get(`${process.env.CMS_URL}/api/socials?populate=*${name ? `&filters[Name][$eq]=${name}` : ''}`, {
-    headers: {
-      Authorization: `Bearer ${process.env.CMS_TOKEN}`
-    }
-  });
+  const socialsData = await kahlifarCmsAxios.get(`${process.env.CMS_URL}/api/socials?populate=*${name ? `&filters[Name][$eq]=${name}` : ''}`);
   return socialsData.data;
 }
 
