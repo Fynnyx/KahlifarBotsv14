@@ -9,7 +9,6 @@ async function getAllChannels() {
         });
         return channels.data;
     } catch (error) {
-        console.log(error);
         return {
             isError: true,
             message: error?.response?.data?.message
@@ -42,7 +41,6 @@ async function getChannelByTwitchName(twitchName) {
         });
         return channel.data;
     } catch (error) {
-        console.log(error);
         return {
             isError: true,
             message: error.response.data.message

@@ -24,34 +24,29 @@ async function startStreamNotificationInterval(client) {
 async function streamNotification(name, client) {
     // try {
     if (name == "test") return
-    requestData.headers.Authorization = `Bearer ${await getOAuthToken()}`;
+    requestData.headers.Authorization = `Bearer ${await getOAuthToken(client)}`;
     const apiStream = await getChannelByTwitchName(name);
     if (apiStream.isError) {
         return client.logger.error(`Error while streamNotification\nWith Streamer ${name}\n` + apiStream.message)
     }
 
-    if (!await channelIsLive(name)) return
-    const streamData = await getStreamData(name);
+    if (!await channelIsLive(name, client)) return
+    const streamData = await getStreamData(name, client);
     if (!streamData) return
 
-    const channelData = await getChannelData(name);
-    const followerData = await getFollowerData(streamData.user_id);
+    const channelData = await getChannelData(name, client);
+    const followerData = await getFollowerData(streamData.user_id, client);
 
     const embed = await createStreamEmbed(apiStream, streamData, channelData, followerData, client);
 
-    console.log(apiStream.lastStreamId, streamData.id);
-    console.log(apiStream.lastStreamId == streamData.id);
     if (apiStream.lastStreamId == streamData.id ) {
         await updateStreamMessage(apiStream, embed, client);
     } else {
-        console.log("new stream");
         const channel = await client.channels.fetch(client.config.channels.streamNotification);
         const message = await channel.send({ content: embed.content, embeds: [embed.embed], components: [embed.row] });
         apiStream.lastStreamId = streamData.id;
         apiStream.lastMessageId = message.id;
-        console.log(apiStream);
         const update = await updateChannel(apiStream.id, apiStream);
-        console.log(update);
     }
     // } catch (error) {
     //     client.logger.error(`Error while streamNotification\nWith Streamer ${name}\n` + error)
@@ -60,7 +55,7 @@ async function streamNotification(name, client) {
 
 
 // Auth
-async function getOAuthToken() {
+async function getOAuthToken(client) {
     try {
     const { data } = await axios.post("https://id.twitch.tv/oauth2/token", {
         client_id: process.env.TWITCH_CLIENT_ID,
@@ -74,7 +69,7 @@ async function getOAuthToken() {
 }
 
 // is Live checker
-async function channelIsLive(name) {
+async function channelIsLive(name, client) {
     try {
         const { data } = await axios.get(`https://api.twitch.tv/helix/streams?user_login=${name}`, requestData);
         return data.data.length > 0;
@@ -84,7 +79,7 @@ async function channelIsLive(name) {
 }
 
 // Get Data
-async function getChannelData(name) {
+async function getChannelData(name, client) {
     try {
         const { data } = await axios.get(`https://api.twitch.tv/helix/users?login=${name}`, requestData);
         return data.data[0];
@@ -93,7 +88,7 @@ async function getChannelData(name) {
     }
 }
 
-async function getStreamData(name) {
+async function getStreamData(name, client) {
     try {
         const { data } = await axios.get(`https://api.twitch.tv/helix/streams?user_login=${name}`, requestData);
         return data.data[0];
@@ -102,7 +97,7 @@ async function getStreamData(name) {
     }
 }
 
-async function getFollowerData(streamerId) {
+async function getFollowerData(streamerId, client) {
     try {
         const { data } = await axios.get(`https://api.twitch.tv/helix/users/follows?to_id=${streamerId}`, requestData);
         return data;
