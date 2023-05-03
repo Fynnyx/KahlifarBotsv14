@@ -28,8 +28,6 @@ async function createConversation(conversation, client) {
 
 async function updateConversation(conversationId, conversation, client) {
     try {
-        console.log("Updating conversation");
-        console.log(conversation.messages);
         const response = await kahlifarApiAxios.put(`${process.env.API_URL}/modmail/conversations/${conversationId}`, conversation)
         return response.data;
     } catch (error) {

@@ -63,7 +63,6 @@ module.exports = {
                                 id: user.id
                             },
                         }, client)
-                        // console.log(messageResponse);
                         await updateModmailMessages(conversationId, client)
                         await sendSuccess('Message sent.', 'Your message has been sent.\nThe staff team will get back to you as soon as possible.', interaction, client)
                         if (message.deletable) message.delete()
@@ -148,7 +147,6 @@ module.exports = {
                                 id: user.id
                             }
                         }, client)
-                        // console.log(newMessage);
                         await updateModmailMessages(conversation.id, client)
                         await sendSuccess("Ticket created", `Your ticket has been created.\n${"**Ticket-ID:**\`#" + conversation.id + "\`"}`, i, client)
                     })
