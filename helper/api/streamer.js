@@ -4,13 +4,13 @@ async function getAllChannels() {
     try {
         const channels = await kahlifarApiAxios.get(`${process.env.API_URL}/twitchchannel`, {
         });
-    return channels.data;
-} catch (error) {
-    return {
-        isError: true,
-        message: error?.response?.data?.message
-    };
-}
+        return channels.data;
+    } catch (error) {
+        return {
+            isError: true,
+            message: error?.response?.data?.message
+        };
+    }
 }
 
 async function getChannelById(id) {
