@@ -1,12 +1,8 @@
-const axios = require('axios');
+const { kahlifarApiAxios } = require('../../../loader/axios');
 
 async function getConversation(conversationId, client) {
     try {
-        const response = await axios.get(`${process.env.API_URL}/modmail/conversations/${conversationId}`, {
-            headers: {
-                API_KEY: process.env.API_KEY
-            }
-        })
+        const response = await kahlifarApiAxios.get(`${process.env.API_URL}/modmail/conversations/${conversationId}`)
         return response.data;
     } catch (error) {
         client.logger.error(error);
@@ -19,11 +15,7 @@ async function getConversation(conversationId, client) {
 
 async function createConversation(conversation, client) {
     try {
-        const response = await axios.post(`${process.env.API_URL}/modmail/conversations`, conversation, {
-            headers: {
-                API_KEY: process.env.API_KEY
-            }
-        })
+        const response = await kahlifarApiAxios.post(`${process.env.API_URL}/modmail/conversations`, conversation)
         return response.data;
     } catch (error) {
         client.logger.error(error);
@@ -36,14 +28,11 @@ async function createConversation(conversation, client) {
 
 async function updateConversation(conversationId, conversation, client) {
     try {
-        const response = await axios.put(`${process.env.API_URL}/modmail/conversations/${conversationId}`, conversation, {
-            headers: {
-                API_KEY: process.env.API_KEY
-            }
-        })
+        console.log("Updating conversation");
+        console.log(conversation.messages);
+        const response = await kahlifarApiAxios.put(`${process.env.API_URL}/modmail/conversations/${conversationId}`, conversation)
         return response.data;
     } catch (error) {
-        console.error(error);
         client.logger.error(error);
         return {
             isError: true,
@@ -54,11 +43,7 @@ async function updateConversation(conversationId, conversation, client) {
 
 async function deleteConversation(conversationId, client) {
     try {
-        const response = await axios.delete(`${process.env.API_URL}/modmail/conversations/${conversationId}`, {
-            headers: {
-                API_KEY: process.env.API_KEY
-            }
-        })
+        const response = await kahlifarApiAxios.delete(`${process.env.API_URL}/modmail/conversations/${conversationId}`)
         return response.data;
     } catch (error) {
         client.logger.error(error);

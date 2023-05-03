@@ -51,18 +51,19 @@ module.exports = {
                     // Wait for user to send message
                     const filter = m => m.author.id == interaction.user.id
                     const collector = channel.createMessageCollector({ filter, time: 10 * 1000, max: 1 })
-                    
+
                     await interaction.editReply({ content: 'Please send your message.', components: [] })
                     collector.on('collect', async message => {
-                        await createMessage({
+                        const messageResponse = await createMessage({
                             content: message.content,
                             conversation: {
-                                id: conversationId
+                                id: Number(conversationId)
                             },
                             user: {
                                 id: user.id
-                            }
-                        })
+                            },
+                        }, client)
+                        // console.log(messageResponse);
                         await updateModmailMessages(conversationId, client)
                         await sendSuccess('Message sent.', 'Your message has been sent.\nThe staff team will get back to you as soon as possible.', interaction, client)
                         if (message.deletable) message.delete()
@@ -147,6 +148,7 @@ module.exports = {
                                 id: user.id
                             }
                         }, client)
+                        // console.log(newMessage);
                         await updateModmailMessages(conversation.id, client)
                         await sendSuccess("Ticket created", `Your ticket has been created.\n${"**Ticket-ID:**\`#" + conversation.id + "\`"}`, i, client)
                     })

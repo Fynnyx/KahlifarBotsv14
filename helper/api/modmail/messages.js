@@ -1,12 +1,8 @@
-const axios = require('axios');
+const { kahlifarApiAxios } = require('../../../loader/axios');
 
 async function getAllMessages(client) {
     try {
-        const response = await axios.get(`${process.env.API_URL}/modmail/messages`, {
-            headers: {
-                API_KEY: process.env.API_KEY
-            }
-        });
+        const response = await kahlifarApiAxios.get(`${process.env.API_URL}/modmail/messages`);
         return response.data;
     } catch (error) {
         client.logger.error(error);
@@ -19,11 +15,7 @@ async function getAllMessages(client) {
 
 async function getMessageById(client, id) {
     try {
-        const response = await axios.get(`${process.env.API_URL}/modmail/messages/${id}`, {
-            headers: {
-                API_KEY: process.env.API_KEY
-            }
-        });
+        const response = await kahlifarApiAxios.get(`${process.env.API_URL}/modmail/messages/${id}`);
         return response.data;
     } catch (error) {
         client.logger.error(error);
@@ -36,11 +28,7 @@ async function getMessageById(client, id) {
 
 async function createMessage(message, client) {
     try {
-        const response = await axios.post(`${process.env.API_URL}/modmail/messages`, message, {
-            headers: {
-                API_KEY: process.env.API_KEY
-            }
-        });
+        const response = await kahlifarApiAxios.post(`${process.env.API_URL}/modmail/messages`, message);
         return response.data;
     } catch (error) {
         client.logger.error(error);
@@ -53,11 +41,7 @@ async function createMessage(message, client) {
 
 async function updateMessage(messageId, message, client) {
     try {
-        const response = await axios.put(`${process.env.API_URL}/modmail/messages/${messageId}`, message, {
-            headers: {
-                API_KEY: process.env.API_KEY
-            }
-        });
+        const response = await kahlifarApiAxios.put(`${process.env.API_URL}/modmail/messages/${messageId}`, message);
         return response.data;
     } catch (error) {
         client.logger.error(error);
@@ -70,11 +54,7 @@ async function updateMessage(messageId, message, client) {
 
 async function deleteMessage(messageId, client) {
     try {
-        const response = await axios.delete(`${process.env.API_URL}/modmail/messages/${messageId}`, {
-            headers: {
-                API_KEY: process.env.API_KEY
-            }
-        });
+        const response = await kahlifarApiAxios.delete(`${process.env.API_URL}/modmail/messages/${messageId}`);
         return response.data;
     } catch (error) {
         client.logger.error(error);

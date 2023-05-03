@@ -1,14 +1,8 @@
-const axios = require('axios');
+const { kahlifarCmsAxios } = require('../../loader/axios');
 const { SelectMenuBuilder, RoleSelectMenuBuilder, StringSelectMenuBuilder } = require('discord.js');
 
 async function getCMSSelect(name) {
-    const select = await axios.get(`${process.env.CMS_URL}/api/selects?populate=*&filters[Name][$eq]=${name}`,
-        {
-            headers: {
-                Authorization: `Bearer ${process.env.CMS_TOKEN}`
-            }
-        }
-    );
+    const select = await kahlifarCmsAxios.get(`${process.env.CMS_URL}/api/selects?populate=*&filters[Name][$eq]=${name}`);
     return select.data.data;
 }
 

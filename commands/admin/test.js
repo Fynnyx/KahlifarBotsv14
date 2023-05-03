@@ -5,11 +5,11 @@ const { getDCUser, updateDCUser, registerDCUser } = require("../../helper/api/dc
 const { registerNewUser } = require('../../helper/api/register');
 
 module.exports = {
-    developer: true,
+    developer: false,
     data: new SlashCommandBuilder()
         .setName('test')
         .setDescription('Test something!')
-        .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
+        .setDefaultMemberPermissions(PermissionFlagsBits.ModerateMembers),
     /**
      * @param { ChatInputCommandInteraction } interaction
      * @param { Client } client
@@ -18,37 +18,32 @@ module.exports = {
         interaction.deferReply({ ephemeral: true });
 
         try {
-            // const dmChannel = await interaction.user.createDM();
-            // console.log(dmChannel.messages);
-            // for (const message of await dmChannel.messages.fetch()) {
-            //     console.log(message);
-            //     if (message[1].author.id !== client.user.id) continue;
-            //     message[1].delete();
-            // }
+            const dmChannel = await interaction.user.createDM();
+            for (const message of await dmChannel.messages.fetch()) {
+                if (message[1].author.id !== client.user.id) continue;
+                message[1].delete();
+            }
 
             // ! --------------------------------------------
 
             // Fetch all members from the guild
-            const members = await interaction.guild.members.fetch();
+            // const members = await interaction.guild.members.fetch();
 
-            for (const member of members.values()) {
-                // Check if the member is a bot
-                if (member.user.bot) continue;
+            // for (const member of members.values()) {
+            //     // Check if the member is a bot
+            //     if (member.user.bot) continue;
 
-                // Check if the member is already registered
-                const apiUser = await getDCUser(member.id);
-                console.log(apiUser);
-                if (apiUser.isError) {
-                    // Register the member
-                    const response = await registerNewUser(member);
-                    console.log(response);
-                }
-            }
+            //     // Check if the member is already registered
+            //     const apiUser = await getDCUser(member.id);
+            //     if (apiUser.isError) {
+            //         // Register the member
+            //         const response = await registerNewUser(member);
+            //     }
+            // }
 
             interaction.editReply({ content: 'Done!' });
         } catch (error) {
-            console.log(error);
-            interaction.editReply({ content: 'An error occured!' });
+            interaction.editReply({ content: 'An error occured!\n' + error });
         }
     }
 };

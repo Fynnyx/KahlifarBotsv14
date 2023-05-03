@@ -1,12 +1,8 @@
-const axios = require('axios');
+const { kahlifarApiAxios } = require('../../../loader/axios');
 
 async function getAllTopics(client) {
     try {
-        const response = await axios.get(`${process.env.API_URL}/modmail/topics`, {
-            headers: {
-                API_KEY: process.env.API_KEY
-            }
-        })
+        const response = await kahlifarApiAxios.get(`${process.env.API_URL}/modmail/topics`)
         return response.data;
     } catch (error) {
         client.logger.error(error);
@@ -19,11 +15,7 @@ async function getAllTopics(client) {
 
 async function getTopic(topicId) {
     try {
-        const response = await axios.get(`${process.env.API_URL}/modmail/topics/${topicId}`, {
-            headers: {
-                API_KEY: process.env.API_KEY
-            }
-        })
+        const response = await kahlifarApiAxios.get(`${process.env.API_URL}/modmail/topics/${topicId}`)
         return response.data;
     } catch (error) {
         client.logger.error(error);

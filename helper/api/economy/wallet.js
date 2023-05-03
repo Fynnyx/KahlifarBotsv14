@@ -1,4 +1,4 @@
-const axios = require('axios');
+const { kahlifarApiAxios } = require('../../../loader/axios');
 const { getDCUser } = require('./../dcuser.js');
 const { getUser } = require('./../user.js');
 
@@ -16,11 +16,7 @@ async function getWalletByUserId(user) {
 
 async function createWallet(balance = { coins: 0, emeralds: 0 }) {
     try {
-        const wallet = await axios.post(`${process.env.API_URL}/economy/wallets`, balance, {
-            headers: {
-                API_KEY: process.env.API_KEY
-            }
-        });
+        const wallet = await kahlifarApiAxios.post(`${process.env.API_URL}/economy/wallets`, balance);
         return wallet.data;
     } catch (error) {
         return {
@@ -32,11 +28,7 @@ async function createWallet(balance = { coins: 0, emeralds: 0 }) {
 
 async function updateWallet(wallet) {
     try {
-        const updatedWallet = await axios.put(`${process.env.API_URL}/economy/wallets/${wallet.id}`, wallet, {
-            headers: {
-                API_KEY: process.env.API_KEY
-            }
-        });
+        const updatedWallet = await kahlifarApiAxios.put(`${process.env.API_URL}/economy/wallets/${wallet.id}`, wallet);
         return updatedWallet.data;
     } catch (error) {
         return false;
