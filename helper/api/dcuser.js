@@ -1,12 +1,9 @@
-const axios = require('axios');
+const { kahlifarApiAxios } = require('../../loader/axios');
 const client = require('../../index.js');
 
 async function getDCUser(discordId) {
     try {
-        const user = await axios.get(`${process.env.API_URL}/dcusers/byDiscordId/${discordId}`, {
-            headers: {
-                API_KEY: process.env.API_KEY
-            }
+        const user = await kahlifarApiAxios.get(`/dcusers/byDiscordId/${discordId}`, {
         });
         return user.data;
     } catch (error) {
@@ -19,11 +16,7 @@ async function getDCUser(discordId) {
 
 async function registerDCUser(dcuser) {
     try {
-        const newDCUser = await axios.post(`${process.env.API_URL}/dcusers`, dcuser, {
-            headers: {
-                API_KEY: process.env.API_KEY
-            }
-        });
+        const newDCUser = await kahlifarApiAxios.post(`/dcusers`, dcuser);
         return newDCUser.data;
     } catch (error) {
         return {
@@ -35,11 +28,7 @@ async function registerDCUser(dcuser) {
 
 async function updateDCUser(dcuserId, dcuser) {
     try {
-        const updatedDCUser = await axios.put(`${process.env.API_URL}/dcusers/${dcuserId}`, dcuser, {
-            headers: {
-                API_KEY: process.env.API_KEY
-            }
-        });
+        const updatedDCUser = await kahlifarApiAxios.put(`${process.env.API_URL}/dcusers/${dcuserId}`, dcuser);
         return updatedDCUser.data;
     } catch (error) {
         return {

@@ -1,4 +1,4 @@
-const { ChatInputCommandInteraction, SlashCommandBuilder, ActionRowBuilder, ButtonBuilder, PermissionFlagsBits } = require('discord.js');
+const { ChatInputCommandInteraction, SlashCommandBuilder, ActionRowBuilder, ButtonBuilder, PermissionFlagsBits, ButtonStyle } = require('discord.js');
 const { sendError, sendSuccess } = require('../../helper/util/send.js');
 const { getCMSEmbed, createCMSEmbed } = require('../../helper/cms/embed.js');
 const { getCMSText } = require('../../helper/cms/text.js');
@@ -78,6 +78,11 @@ module.exports = {
                         .setName('verify')
                         .setDescription('Send the verify Button to a channel!')
                 )
+                .addSubcommand(subcommand =>
+                    subcommand
+                        .setName('modmail')
+                        .setDescription('Send the create modmail button to a channel!')
+                )
         ),
     /**
      * @param {ChatInputCommandInteraction} interaction
@@ -140,6 +145,24 @@ module.exports = {
                                 components: [verifyRow]
                             })
                             return sendSuccess("Verify sent", `Sent the **verify Component** to the channel!`, interaction, client);
+
+                        case 'modmail':
+                            const modmailEmbedData = await getCMSEmbed('modmail');
+                            if (!modmailEmbedData[0]) return sendError("An error occured", 'No embed found with that name!', interaction, client);
+
+                            const modmailEmbed = await createCMSEmbed(modmailEmbedData[0].attributes);
+                            const modmailRow = new ActionRowBuilder()
+                                .addComponents(
+                                    new ButtonBuilder()
+                                        .setCustomId('modmail-createTicket')
+                                        .setLabel('📩-Create Ticket')
+                                        .setStyle(ButtonStyle.Primary)
+                                )
+                            await channel.send({
+                                embeds: [modmailEmbed],
+                                components: [modmailRow]
+                            })
+                            return sendSuccess("Modmail sent", `Sent the **modmail Component** to the channel!`, interaction, client);
                     }
                     break;
             }

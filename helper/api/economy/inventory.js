@@ -1,4 +1,3 @@
-const axios = require('axios');
 
 async function getEconomyInventoryByUserId(user) {
     if (user.discordId) {
@@ -14,7 +13,7 @@ async function getEconomyInventoryByUserId(user) {
 
 async function createEconomyInventory(walletId, userId) {
     try {
-        const newInventory = await axios.post(`${process.env.API_URL}/economy/inventories`, {
+        const newInventory = await kahlifarApiAxios.post(`${process.env.API_URL}/economy/inventories`, {
             wallet: {
                 id: walletId
             },

@@ -1,7 +1,7 @@
-const axios = require('axios');
+const { kahlifarCmsAxios } = require('../../loader/axios');
 
 async function getCMSText(name) {
-    const text = await axios.get(`${process.env.CMS_URL}/api/texts?populate=*&filters[Name][$eq]=${name}`,
+    const text = await kahlifarCmsAxios.get(`${process.env.CMS_URL}/api/texts?populate=*&filters[Name][$eq]=${name}`,
         {
             headers: {
                 Authorization: `Bearer ${process.env.CMS_TOKEN}`
