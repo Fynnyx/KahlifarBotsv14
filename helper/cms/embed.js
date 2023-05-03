@@ -1,8 +1,8 @@
-const axios = require('axios');
+const { kahlifarCmsAxios } = require('../../loader/axios');
 const { EmbedBuilder } = require('discord.js');
 
 async function getCMSEmbed(name) {
-    const embed = await axios.get(`${process.env.CMS_URL}/api/embeds?populate=*&filters[Name][$eq]=${name}`,
+    const embed = await kahlifarCmsAxios.get(`${process.env.CMS_URL}/api/embeds?populate=*&filters[Name][$eq]=${name}`,
         {
             headers: {
                 Authorization: `Bearer ${process.env.CMS_TOKEN}`

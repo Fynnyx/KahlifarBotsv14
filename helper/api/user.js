@@ -1,7 +1,7 @@
-const axios = require('axios');
+const { kahlifarApiAxios } = require('../../loader/axios');
 
 async function getUser(userid) {
-    const user = await axios.get(`${process.env.API_URL}/users/${userid}`, {
+    const user = await kahlifarApiAxios.get(`${process.env.API_URL}/users/${userid}`, {
         headers: {
             API_KEY: process.env.API_KEY
         }
@@ -11,7 +11,7 @@ async function getUser(userid) {
 
 async function registerUser(username) {
     try {
-        const newUser = await axios.post(`${process.env.API_URL}/users`, {
+        const newUser = await kahlifarApiAxios.post(`${process.env.API_URL}/users`, {
             username: username
         },
             {

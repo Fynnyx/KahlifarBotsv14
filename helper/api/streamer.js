@@ -1,11 +1,8 @@
-const axios = require('axios');
+const { kahlifarApiAxios } = require('../../loader/axios');
 
 async function getAllChannels() {
     try {
-        const channels = await axios.get(`${process.env.API_URL}/twitchchannel`, {
-            headers: {
-                API_KEY: process.env.API_KEY
-            },
+        const channels = await kahlifarApiAxios.get(`${process.env.API_URL}/twitchchannel`, {
         });
         return channels.data;
     } catch (error) {
@@ -18,11 +15,7 @@ async function getAllChannels() {
 
 async function getChannelById(id) {
     try {
-        const channel = await axios.get(`${process.env.API_URL}/twitchchannel/${id}`, {
-            headers: {
-                API_KEY: process.env.API_KEY
-            }
-        });
+        const channel = await kahlifarApiAxios.get(`${process.env.API_URL}/twitchchannel/${id}`);
         return channel.data;
     } catch (error) {
         return {
@@ -34,11 +27,7 @@ async function getChannelById(id) {
 
 async function getChannelByTwitchName(twitchName) {
     try {
-        const channel = await axios.get(`${process.env.API_URL}/twitchchannel/byName/${twitchName}`, {
-            headers: {
-                API_KEY: process.env.API_KEY
-            }
-        });
+        const channel = await kahlifarApiAxios.get(`${process.env.API_URL}/twitchchannel/byName/${twitchName}`);
         return channel.data;
     } catch (error) {
         return {
@@ -50,11 +39,7 @@ async function getChannelByTwitchName(twitchName) {
 
 async function createChannel(channelData) {
     try {
-        const channel = await axios.post(`${process.env.API_URL}/twitchchannel`, channelData, {
-            headers: {
-                API_KEY: process.env.API_KEY
-            }
-        });
+        const channel = await kahlifarApiAxios.post(`${process.env.API_URL}/twitchchannel`, channelData);
         return channel.data;
     } catch (error) {
         return {
@@ -66,12 +51,7 @@ async function createChannel(channelData) {
 
 async function updateChannel(id, channelData) {
     try {
-        const channel = await axios.put(`${process.env.API_URL}/twitchchannel/${id}`, channelData, {
-            headers: {
-                API_KEY: process.env.API_KEY
-            },
-            maxContentLength: 10000000000000,
-
+        const channel = await kahlifarApiAxios.put(`${process.env.API_URL}/twitchchannel/${id}`, channelData, {
         });
         return channel.data;
     } catch (error) {
@@ -84,11 +64,7 @@ async function updateChannel(id, channelData) {
 
 async function deleteChannel(id) {
     try {
-        await axios.delete(`${process.env.API_URL}/twitchchannel/${id}`, {
-            headers: {
-                API_KEY: process.env.API_KEY
-            }
-        });
+        await kahlifarApiAxios.delete(`${process.env.API_URL}/twitchchannel/${id}`);
     } catch (error) {
         return {
             isError: true,

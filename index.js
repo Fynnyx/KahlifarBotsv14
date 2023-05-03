@@ -1,6 +1,4 @@
 const { Client, GatewayIntentBits, Partials, Collection } = require("discord.js")
-const { Guilds, GuildMembers, GuildMessages } = GatewayIntentBits
-const { User, Message, GuildMember, ThreadMember } = Partials
 const logger = require("./loader/logger")
 const dotenv = require("dotenv")
 
@@ -11,15 +9,17 @@ dotenv.config()
 
 const client = new Client({
 	intents: [
-		Guilds,
-		GuildMembers,
-		GuildMessages
+		GatewayIntentBits.Guilds,
+		GatewayIntentBits.GuildMembers,
+		GatewayIntentBits.GuildMessages,
+		GatewayIntentBits.MessageContent,
+		GatewayIntentBits.DirectMessages,
 	],
 	partials: [
-		User,
-		Message,
-		GuildMember,
-		ThreadMember
+		Partials.User,
+		Partials.Message,
+		Partials.GuildMember,
+		Partials.ThreadMember
 	],
 });
 client.config = require("./properties.json")
