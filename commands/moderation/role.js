@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { ChatInputCommandInteraction, Client, EmbedBuilder } = require('discord.js');
+const { ChatInputCommandInteraction, Client, EmbedBuilder, PermissionFlagsBits } = require('discord.js');
 const { sendError } = require('../../helper/util/send');
 const moment = require('moment');
 
@@ -7,6 +7,7 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('role')
         .setDescription('Role Manager')
+        .setDefaultMemberPermissions(PermissionFlagsBits.ManageRoles, PermissionFlagsBits.ModerateMembers)
         .addSubcommand(subcommand =>
             subcommand
                 .setName('add')
