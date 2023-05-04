@@ -70,7 +70,6 @@ module.exports = {
                     }
 
                     members.forEach(member => {
-                        console.log(member.user.username);
                         if (member.roles.cache.has(roleToAdd.id)) return summary.membersSkipped++;
                         member.roles.add(roleToAdd);
                         summary.membersAdded++;

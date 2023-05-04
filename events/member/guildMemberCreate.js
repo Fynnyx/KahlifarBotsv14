@@ -3,6 +3,7 @@ const { EmbedBuilder } = require("discord.js")
 const { getDCUser, updateDCUser } = require("../../helper/api/dcuser")
 const { registerNewUser } = require("../../helper/api/register")
 const { getCMSText } = require("../../helper/cms/text")
+const { updateChannels } = require("../../helper/components/statchannel")
 
 module.exports = {
     name: 'guildMemberAdd',
@@ -10,6 +11,8 @@ module.exports = {
     once: false,
     async execute(member, client) {
         try {
+            const botRole = member.guild.roles.cache.get(client.config.roles.bot);
+            if (member.user.bot) await member.roles.add(botRole);
             const welcomeChannel = client.channels.cache.get(client.config.channels.welcome);
             const textData = await getCMSText('userWelcome');
             if (textData[0]) {
@@ -53,6 +56,7 @@ module.exports = {
                     )
                 }
             }
+            updateChannels(client)
             return modConsole.send({ embeds: [embed] });
         } catch (error) {
             client.logger.error(error);
