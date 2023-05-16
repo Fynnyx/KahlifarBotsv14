@@ -7,9 +7,6 @@ const moment = require('moment');
 
 async function updateModmailMessages(conversationId, client) {
     const conversation = await getConversation(conversationId, client)
-    // console.log("Messages:");
-    // console.log(conversation);
-    // console.log(conversation);
     if (conversation.isError) return
     const user = await getMainDCUser(conversation.user.discordUsers, client)
     const messages = conversation.messages
@@ -44,7 +41,6 @@ async function updateModmailMessages(conversationId, client) {
                 .setLabel("🚫 Ban")
                 .setStyle(ButtonStyle.Danger),
         )
-    // console.log(conversation);
     modChannel.messages.fetch(conversation.lastMessageId)
         .then(async message => {
             message.edit({ embeds: [modmailEmbed], components: [modmailModActions] })
@@ -55,9 +51,6 @@ async function updateModmailMessages(conversationId, client) {
             await updateConversation(conversation.id, conversation, client)
         })
     await discordUser.send({ embeds: [modmailEmbed], components: [await createModmailActions()] })
-    console.log("Updated modmail messages");
-    await sleep(5)
-    console.log(await getConversation(conversationId, client));
 }
 
 async function createFieldStrings(messages) {

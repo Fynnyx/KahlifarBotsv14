@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require("discord.js");
+const { SlashCommandBuilder, PermissionFlagsBits } = require("discord.js");
 const { getConversation } = require("../../helper/api/modmail/conversation");
 
 
@@ -6,6 +6,7 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('modmail')
         .setDescription('Modmail commands')
+        .setDefaultMemberPermissions(PermissionFlagsBits.ModerateMembers)
         .addSubcommandGroup(group =>
             group
                 .setName('conversation')

@@ -1,6 +1,6 @@
 {
     "developer": "451776092785737728",
-    "guildId": "978366979914235905",
+    "guildId": "814230131681132605",
     "colors": {
         "blue": "#023047",
         "lightblue": "#219EBC",
@@ -8,16 +8,20 @@
         "orange": "#FB8500",
         "yellow": "#FFB703",
         "red": "#CF2626",
-        "purple": "#563695",
+        "purple": "#bb1fc3",
+        "green": "#59B716",
+        "antracite": "#2F2E3D",
 
-        "success": "#00e837"
+        "success": "#59B716"
     },
     "commands": {},
     "channels": {
         "modConsole": "930362449738231838",
         "modMail": "940579731575820288",
+        "application": "929669352519761961",
         "welcome": "814232744892301342",
-        "streamNotification": "895547488184975361"
+        "streamNotification": "942074209037856860",
+        "mckliConsole": "920651372892917780"
     },
     "helpers": {
         "send": {
@@ -25,11 +29,16 @@
         },
         "streamNotification": {
             "pingRole": "941712142112002048",
-            "interval": 0.2
+            "interval": 0.5
         }
     },
     "roles": {
-        "member": "814523816818638868"
+        "member": "814523816818638868",
+        "modNewApplication": "929668513516376114",
+        "modNewModmail": "940987629736972308",
+        "mckliMember": "896865134306279485",
+
+        "bot": "814233298204622848"
     },
     "events": {}
 }

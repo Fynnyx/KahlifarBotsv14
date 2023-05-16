@@ -3,6 +3,7 @@ const { EmbedBuilder } = require("discord.js")
 const { getDCUser, updateDCUser } = require("../../helper/api/dcuser")
 const { registerNewUser } = require("../../helper/api/register")
 const { getCMSText } = require("../../helper/cms/text")
+const { updateChannels } = require("../../helper/components/statchannel")
 
 module.exports = {
     name: 'guildMemberAdd',
@@ -10,15 +11,17 @@ module.exports = {
     once: false,
     async execute(member, client) {
         try {
-            const welcomeChannel = client.channels.cache.get(client.config.channels.welcome);
-            const textData = await getCMSText('userWelcome');
-            if (textData[0]) {
-                for (const text of textData[0].attributes.texts) {
-                    welcomeChannel.send(text.value
-                        .replace('%MEMBER%', member)
-                    );
-                }
-            }
+            // const botRole = member.guild.roles.cache.get(client.config.roles.bot);
+            // if (member.user.bot) await member.roles.add(botRole);
+            // const welcomeChannel = client.channels.cache.get(client.config.channels.welcome);
+            // const textData = await getCMSText('userWelcome');
+            // if (textData[0]) {
+            //     for (const text of textData[0].attributes.texts) {
+            //         welcomeChannel.send(text.value
+            //             .replace('%MEMBER%', member)
+            //         );
+            //     }
+            // }
 
             const modConsole = client.channels.cache.get(client.config.channels.modConsole);
             const embed = new EmbedBuilder()
@@ -53,7 +56,7 @@ module.exports = {
                     )
                 }
             }
-
+            updateChannels(client)
             return modConsole.send({ embeds: [embed] });
         } catch (error) {
             client.logger.error(error);

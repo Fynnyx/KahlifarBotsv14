@@ -1,6 +1,7 @@
 const moment = require("moment")
 const { EmbedBuilder, AuditLogEvent } = require("discord.js")
 const { getDCUser, updateDCUser } = require("../../helper/api/dcuser")
+const { updateChannels } = require("../../helper/components/statchannel")
 
 module.exports = {
     name: 'guildMemberRemove',
@@ -8,6 +9,7 @@ module.exports = {
     once: false,
     async execute(member, client) {
         try {
+            updateChannels(client)
             const modConsole = client.channels.cache.get(client.config.channels.modConsole);
             const embed = new EmbedBuilder()
                 .setColor(client.config.colors.red)
@@ -19,8 +21,8 @@ module.exports = {
                 embed.addFields(
 
                     { name: 'First joined', value: moment(new Date(apiUser.firstJoinDate)).format("DD.MM.YYYY HH:mm:ss"), inline: true },
-                    { name: 'Last joined', value: moment(new Date(apiUser.leaveDate)).format("DD.MM.YYYY HH:mm:ss"), inline: true },
-                    { name: 'Last joined', value: moment(new Date(apiUser.leaveDate)).fromNow(), inline: true },
+                    { name: 'Last joined', value: moment(new Date(apiUser.leaveDate ? apiUser.leaveDate : apiUser.firstJoinDate)).format("DD.MM.YYYY HH:mm:ss"), inline: true },
+                    { name: 'Last joined', value: moment(new Date(apiUser.leaveDate ? apiUser.leaveDate : apiUser.firstJoinDate)).fromNow(), inline: true },
                 )
 
                 // Set to current datetime

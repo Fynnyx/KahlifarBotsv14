@@ -1,9 +1,10 @@
-const { ChatInputCommandInteraction, Client, SlashCommandBuilder } = require('discord.js');
+const { ChatInputCommandInteraction, Client, SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('profile')
         .setDescription('Get all information about a user!')
+        .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
         .addSubcommand(subcommand => subcommand
             .setName('get')
             .setDescription('Get all information about a user!')
