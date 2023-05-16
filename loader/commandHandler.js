@@ -28,14 +28,31 @@ async function loadCommands(client) {
     client.application.commands.set(commandsArray);
     asciiTable.setTitle(`Commands ${client.commands.size}`);
 
-    if (process.env.ENVIRONMENT === "prd") {
-        const modLogChannel = await client.channels.fetch(client.config.channels.modConsole)
-        modLogChannel.send({
-            content: `${"```asciidoc\n" + asciiTable.toString() + "\n```"}`
-        });
-    }
+    // Split string into multiple messages if it is too long
+    if (asciiTable.toString().length > 2000) {
+        const asciiTableArray = asciiTable.toString().split("\n");
+        let asciiTableString = "";
+        let asciiTableStringArray = [];
+        for (const asciiTableLine of asciiTableArray) {
+            if (asciiTableString.length + asciiTableLine.length > 2000) {
+                asciiTableStringArray.push(asciiTableString);
+                asciiTableString = "";
+            }
+            asciiTableString += asciiTableLine + "\n";
+        }
+        asciiTableStringArray.push(asciiTableString);
+        for (const asciiTableString of asciiTableStringArray) {
+            if (process.env.ENVIRONMENT === "prd") {
+                const modLogChannel = await client.channels.fetch(client.config.channels.modConsole)
+                modLogChannel.send(
+                    { content: `${"```asciidoc\n" + asciiTableString + "\n```"}` }
+                )
 
-    return console.info(asciiTable.toString());
+            }
+            console.info(asciiTableString);
+        }
+        return;
+    }
 }
 
 module.exports = { loadCommands };
