@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/Kahlifar/KahlifarBotsv14#kahlifarbotsv14",
   "dependencies": {
-    "ascii-table": "^0.0.9",
+    "ascii-table3": "^0.8.2",
     "axios": "^1.3.4",
     "discord.js": "^14.10.2",
     "dotenv": "^16.0.3",
