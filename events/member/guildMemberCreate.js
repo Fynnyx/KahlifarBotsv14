@@ -11,17 +11,17 @@ module.exports = {
     once: false,
     async execute(member, client) {
         try {
-            const botRole = member.guild.roles.cache.get(client.config.roles.bot);
-            if (member.user.bot) await member.roles.add(botRole);
-            const welcomeChannel = client.channels.cache.get(client.config.channels.welcome);
-            const textData = await getCMSText('userWelcome');
-            if (textData[0]) {
-                for (const text of textData[0].attributes.texts) {
-                    welcomeChannel.send(text.value
-                        .replace('%MEMBER%', member)
-                    );
-                }
-            }
+            // const botRole = member.guild.roles.cache.get(client.config.roles.bot);
+            // if (member.user.bot) await member.roles.add(botRole);
+            // const welcomeChannel = client.channels.cache.get(client.config.channels.welcome);
+            // const textData = await getCMSText('userWelcome');
+            // if (textData[0]) {
+            //     for (const text of textData[0].attributes.texts) {
+            //         welcomeChannel.send(text.value
+            //             .replace('%MEMBER%', member)
+            //         );
+            //     }
+            // }
 
             const modConsole = client.channels.cache.get(client.config.channels.modConsole);
             const embed = new EmbedBuilder()

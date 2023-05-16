@@ -10,7 +10,7 @@ async function registerNewUser(member) {
     const newDCUser = await registerDCUser(
         {
             firstJoinDate: member.joinedTimestamp,
-            lastJoinDate: new Date(),
+            lastJoinDate: member.joinedTimestamp,
             isMainUser: true,
             discordId: member.id,
             user: {
@@ -19,13 +19,13 @@ async function registerNewUser(member) {
         });
     if (newDCUser.isError) return newDCUser.message;
 
-    const newWallet = await createWallet({
-        coins: 0,
-        emeralds: 0
-    });
-    if (newWallet.isError) return newWallet.message;
-    const newEconomyInventory = await createEconomyInventory(newWallet.id, newUser.id)
-    if (newEconomyInventory.isError) return newEconomyInventory.message;
+    // const newWallet = await createWallet({
+    //     coins: 0,
+    //     emeralds: 0
+    // });
+    // if (newWallet.isError) return newWallet.message;
+    // const newEconomyInventory = await createEconomyInventory(newWallet.id, newUser.id)
+    // if (newEconomyInventory.isError) return newEconomyInventory.message;
     return true;
 }
 
