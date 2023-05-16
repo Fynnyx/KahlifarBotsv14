@@ -1,9 +1,8 @@
-const asciiTable = require('ascii-table');
 
 async function loadEvents(client) {
     const { loadFiles } = require('../helper/fileLoader');
-    const ascii = require('ascii-table');
-    const asciiTable = new ascii("Events");
+    const { AsciiTable3 } = require('ascii-table3');
+    const asciiTable = new AsciiTable3("Events");
     asciiTable.setHeading("Event", "Usage", "Load status");
 
     // Clear the events collection
@@ -39,7 +38,35 @@ async function loadEvents(client) {
             asciiTable.addRow(fileName, "!! Error occured !!", `❌ -> ${err.message}`);
         }
     }
-    return console.info(asciiTable.toString());
+    const modLogChannel = await client.channels.fetch(client.config.channels.modConsole)
+    if (asciiTable.toString().length > 2000) {
+        const asciiTableArray = asciiTable.toString().split("\n");
+        let asciiTableString = "";
+        let asciiTableStringArray = [];
+        for (const asciiTableLine of asciiTableArray) {
+            if (asciiTableString.length + asciiTableLine.length > 2000) {
+                asciiTableStringArray.push(asciiTableString);
+                asciiTableString = "";
+            }
+            asciiTableString += asciiTableLine + "\n";
+        }
+        asciiTableStringArray.push(asciiTableString);
+        for (const asciiTableString of asciiTableStringArray) {
+            if (process.env.ENVIRONMENT === "prd") {
+                modLogChannel.send(
+                    { content: `${"```asciidoc\n" + asciiTableString + "\n```"}` }
+                )
+            }
+            console.info(asciiTableString);
+        }
+        return;
+    }
+    if (process.env.ENVIRONMENT === "prd") {
+        modLogChannel.send(
+            { content: `${"```asciidoc\n" + asciiTable.toString() + "\n```"}` }
+        )
+    }
+    console.info(asciiTable.toString());
 }
 
 module.exports = { loadEvents };
