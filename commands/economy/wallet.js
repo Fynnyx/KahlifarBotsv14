@@ -22,6 +22,7 @@ module.exports = {
             },
             client
         );
+        if (wallet.isError) return await interaction.editReply({content: wallet.message});
         const walletEmbed = new EmbedBuilder()
         .setColor(client.config.colors.lightblue)
         .setTitle(`Wallet of ${user.username}`)
