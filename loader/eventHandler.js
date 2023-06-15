@@ -61,11 +61,11 @@ async function loadEvents(client) {
         }
         return;
     }
-    if (process.env.ENVIRONMENT === "prd") {
-        modLogChannel.send(
-            { content: `${"```asciidoc\n" + asciiTable.toString() + "\n```"}` }
-        )
-    }
+    // if (process.env.ENVIRONMENT === "prd") {
+    //     modLogChannel.send(
+    //         { content: `${"```asciidoc\n" + asciiTable.toString() + "\n```"}` }
+    //     )
+    // }
     console.info(asciiTable.toString());
 }
 

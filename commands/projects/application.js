@@ -91,7 +91,7 @@ module.exports = {
                     components: [modNewApplicationRow]
                 });
 
-                await sendSuccess("Application sent!", `Your application \`#${applicationResponse.id}\` has been sent to the staf team. You will be notified when your application has been reviewed.\n\n*! Dont contact any staff team member via DM*`, interaction, client);
+                await sendSuccess("Application sent!", `Your application \`#${applicationResponse.id}\` has been sent to the staff team. You will be notified when your application has been reviewed.\n\n*! Dont contact any staff team member via DM*`, interaction, client);
                 break;
         }
     }
