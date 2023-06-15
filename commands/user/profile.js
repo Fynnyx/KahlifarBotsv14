@@ -176,9 +176,7 @@ module.exports = {
                 case 'set':
                     let apiUser
                     let apiUserReturn
-                    let updadateOtherPermissions = false
-
-                    if (user && !(interaction.user.id !== user.id || interaction.member.permissions.has(PermissionFlagsBits.Administrator) || interaction.member.permissions.has(PermissionFlagsBits.ModerateMembers))) {
+                    if (user && !(interaction.user.id == user.id || interaction.member.permissions.has(PermissionFlagsBits.Administrator) || interaction.member.permissions.has(PermissionFlagsBits.ModerateMembers))) {
                         return sendError("User not updated", 'You do not have the permission to update other users!', interaction, client);
                     }
                     switch (subcommand) {
