@@ -22,7 +22,7 @@ const client = new Client({
 		Partials.ThreadMember
 	],
 });
-client.config = require("./properties.json")
+client.config = require( (`./${process.env.ENVIRONMENT.toLowerCase()}-properties.json`) || "./properties.json")
 client.events = new Collection()
 client.commands = new Collection()
 client.logger = logger

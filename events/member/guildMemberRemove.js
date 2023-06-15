@@ -43,17 +43,18 @@ module.exports = {
                 entry: null,
             }
             banLog.entry = banLogs.entries.first();
-            if (!banLog.entry) return;
-            // Check if the log entry is newer than the last join date from the apiUser. User moment.js to compare the dates
-            if (banLog.entry.target.id == member.id && moment(new Date(apiUser.lastJoinDate)).isBefore(moment(new Date(banLog.entry.createdTimestamp))) ) {
-                banLog.target = banLog.entry.target;
-                banLog.executor = banLog.entry.executor;
-                banLog.reason = banLog.entry.reason;
+            if (banLog.entry) {
+                // Check if the log entry is newer than the last join date from the apiUser. User moment.js to compare the dates
+                if (banLog.entry.target.id == member.id && moment(new Date(apiUser.lastJoinDate)).isBefore(moment(new Date(banLog.entry.createdTimestamp)))) {
+                    banLog.target = banLog.entry.target;
+                    banLog.executor = banLog.entry.executor;
+                    banLog.reason = banLog.entry.reason;
 
-                embed.setTitle('Member Banned')
-                    .setDescription(`**${banLog.target.tag}** got banned by **${banLog.executor.tag}** for **${banLog.reason}**`)
+                    embed.setTitle('Member Banned')
+                        .setDescription(`**${banLog.target.tag}** got banned by **${banLog.executor.tag}** for **${banLog.reason}**`)
 
-                return modConsole.send({ embeds: [embed] });
+                    return modConsole.send({ embeds: [embed] });
+                }
             }
             // fetch latest audit log entry for kicks
             // it can only be older than 10 seconds
@@ -68,16 +69,17 @@ module.exports = {
                 entry: null
             }
             kickLog.entry = kickLogs.entries.first();
-            if (!kickLog.entry) return;
-            if (kickLog.entry.target.id == member.id && moment(new Date(apiUser.lastJoinDate)).isBefore(moment(new Date(kickLog.entry.createdTimestamp)))) {
-                kickLog.target = kickLog.entry.target;
-                kickLog.executor = kickLog.entry.executor;
-                kickLog.reason = kickLog.entry.reason;
+            if (kickLog.entry) {
+                if (kickLog.entry.target.id == member.id && moment(new Date(apiUser.lastJoinDate)).isBefore(moment(new Date(kickLog.entry.createdTimestamp)))) {
+                    kickLog.target = kickLog.entry.target;
+                    kickLog.executor = kickLog.entry.executor;
+                    kickLog.reason = kickLog.entry.reason;
 
-                embed.setTitle('Member Kicked')
-                    .setDescription(`**${kickLog.target.tag}** got kicked by **${kickLog.executor.tag}** for **${kickLog.reason}**`)
+                    embed.setTitle('Member Kicked')
+                        .setDescription(`**${kickLog.target.tag}** got kicked by **${kickLog.executor.tag}** for **${kickLog.reason}**`)
 
-                return modConsole.send({ embeds: [embed] });
+                    return modConsole.send({ embeds: [embed] });
+                }
             }
 
             embed.setTitle('Member Left')

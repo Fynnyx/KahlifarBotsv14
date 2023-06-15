@@ -28,8 +28,27 @@ async function registerUser(username) {
     }
 }
 
+async function updateUser(id, userdata) {
+    try {
+        const updatedUser = await kahlifarApiAxios.put(`${process.env.API_URL}/users/${id}`,
+            {
+                username: userdata.username,
+                birthday: userdata.birthday,
+                email: userdata.email,
+            }
+        )
+        return updatedUser.data
+    } catch(error) {
+        return {
+            isError: true,
+            message: error.response.data.message
+        }
+    }
+}
+
 
 module.exports = {
     getUser,
-    registerUser
+    registerUser,
+    updateUser
 }

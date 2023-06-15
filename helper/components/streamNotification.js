@@ -24,18 +24,18 @@ async function startStreamNotificationInterval(client) {
 async function streamNotification(name, client) {
     try {
         if (name == "test") return
-        requestData.headers.Authorization = `Bearer ${await getOAuthToken()}`;
+        requestData.headers.Authorization = `Bearer ${await getOAuthToken(client)}`;
         const apiStream = await getChannelByTwitchName(name);
         if (apiStream.isError) {
             return client.logger.error(`Error while streamNotification\nWith Streamer ${name}\n` + apiStream.message)
         }
 
-        if (!await channelIsLive(name)) return
-        const streamData = await getStreamData(name);
+        if (!await channelIsLive(name, client)) return
+        const streamData = await getStreamData(name, client);
         if (!streamData) return
 
-        const channelData = await getChannelData(name);
-        const followerData = await getFollowerData(streamData.user_id);
+        const channelData = await getChannelData(name, client);
+        const followerData = await getFollowerData(streamData.user_id, client);
 
         const embed = await createStreamEmbed(apiStream, streamData, channelData, followerData, client);
 
@@ -153,28 +153,28 @@ async function createStreamEmbed(apiChannel, streamData, channelData, followerDa
 }
 
 async function updateStreamMessage(apiChannel, embed, client) {
-    // try {
-    const channel = await client.channels.fetch(client.config.channels.streamNotification);
-    if (apiChannel.lastMessageId != null) {
-        try {
-            channel.messages.fetch(apiChannel.lastMessageId)
-                .then(async message => {
-                    return await message.edit({ content: embed.content, embeds: [embed.embed], components: [embed.row] });
-                })
-                .catch(async error => {
-                    const newSendMmessage = await channel.send({ content: embed.content, embeds: [embed.embed], components: [embed.row] });
-                    apiChannel.lastMessageId = newSendMmessage.id;
-                    await updateChannel(apiChannel.id, apiChannel);
-                })
-        } catch (error) {
-            client.logger.error("Error while updateStreamMessage\n" + error)
+    try {
+        const channel = await client.channels.fetch(client.config.channels.streamNotification);
+        if (apiChannel.lastMessageId != null) {
+            try {
+                channel.messages.fetch(apiChannel.lastMessageId)
+                    .then(async message => {
+                        return await message.edit({ content: embed.content, embeds: [embed.embed], components: [embed.row] });
+                    })
+                    .catch(async error => {
+                        const newSendMmessage = await channel.send({ content: embed.content, embeds: [embed.embed], components: [embed.row] });
+                        apiChannel.lastMessageId = newSendMmessage.id;
+                        await updateChannel(apiChannel.id, apiChannel);
+                    })
+            } catch (error) {
+                client.logger.error("Error while updateStreamMessage\n" + error)
+            }
         }
+
+
+    } catch (error) {
+        client.logger.error("Error while updateStreamMessage\n" + error)
     }
-
-
-    // } catch (error) {
-    //     client.logger.error("Error while updateStreamMessage\n" + error)
-    // }
 }
 
 module.exports = {
