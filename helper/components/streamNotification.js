@@ -24,18 +24,18 @@ async function startStreamNotificationInterval(client) {
 async function streamNotification(name, client) {
     try {
         if (name == "test") return
-        requestData.headers.Authorization = `Bearer ${await getOAuthToken()}`;
+        requestData.headers.Authorization = `Bearer ${await getOAuthToken(client)}`;
         const apiStream = await getChannelByTwitchName(name);
         if (apiStream.isError) {
             return client.logger.error(`Error while streamNotification\nWith Streamer ${name}\n` + apiStream.message)
         }
 
-        if (!await channelIsLive(name)) return
-        const streamData = await getStreamData(name);
+        if (!await channelIsLive(name, client)) return
+        const streamData = await getStreamData(name, client);
         if (!streamData) return
 
-        const channelData = await getChannelData(name);
-        const followerData = await getFollowerData(streamData.user_id);
+        const channelData = await getChannelData(name, client);
+        const followerData = await getFollowerData(streamData.user_id, client);
 
         const embed = await createStreamEmbed(apiStream, streamData, channelData, followerData, client);
 
