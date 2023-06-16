@@ -4,12 +4,12 @@ const { getDCUser, getMainDCUser } = require('../../api/dcuser');
 const { searchBirthday } = require('../../api/user');
 const { logToModConsole } = require('../../util/logToModConsole')
 
-const birthdayTask = cron.schedule('0 1 * * * *', async () => {
+const birthdayTask = cron.schedule('0 1,13 * * * ', async () => {
     const currentDate = new Date();
     const currentDay = currentDate.getDate();
     const currentMonth = currentDate.getMonth() + 1;
 
-    client.logger.info("Checking for " + currentDay + "/" + currentMonth);
+    client.logger.info("BirthdayCron: Checking for " + currentDay + "." + currentMonth);
     const users = await searchBirthday(currentDay, currentMonth);
     if (users?.isError) {
         return client.logger.error(users.message);
@@ -22,7 +22,8 @@ const birthdayTask = cron.schedule('0 1 * * * *', async () => {
     }
 },
 {
-    scheduled: true
+    scheduled: true,
+    timezone: "Europe/Zurich"
 })
 
 
