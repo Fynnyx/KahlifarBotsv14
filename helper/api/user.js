@@ -9,6 +9,31 @@ async function getUser(userid) {
     return user.data;
 }
 
+async function searchBirthday(day=null, month=null, year=null) {
+    try {
+        // Only if the provided paramether is set add it to the query
+        params = {};
+        if (day) {
+            params.day = day;
+        }
+        if (month) {
+            params.month = month;
+        }
+        if (year) {
+            params.year = year;
+        }
+        const users = await kahlifarApiAxios.get(`${process.env.API_URL}/users/searchBirthday`, {
+            params: params
+        });
+        return users.data;
+    } catch (error) {
+        return {
+            isError: true,
+            message: error.response.data.message
+        }
+    }
+}
+
 async function registerUser(username) {
     try {
         const newUser = await kahlifarApiAxios.post(`${process.env.API_URL}/users`, {
@@ -49,6 +74,7 @@ async function updateUser(id, userdata) {
 
 module.exports = {
     getUser,
+    searchBirthday,
     registerUser,
     updateUser
 }

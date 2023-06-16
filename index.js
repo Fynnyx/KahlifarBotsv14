@@ -23,8 +23,8 @@ const client = new Client({
 		Partials.ThreadMember
 	],
 });
-// Check if "ENVIROMENT-PROPERTIES.JSON" exists, if not, use "PROPERTIES.JSON"
-if (!fs.existsSync(`./enviroment-properties.json`)) {
+// Require the enviroment properties if they exist
+if (!fs.existsSync(`./${process.env.ENVIRONMENT.toLowerCase()}-properties.json`)) {
 	client.config = require("./properties.json")
 } else {
 	client.config = require(`./${process.env.ENVIRONMENT.toLowerCase()}-properties.json`)
@@ -37,3 +37,5 @@ client.logger = logger
 loadEvents(client)
 
 client.login(process.env.TOKEN)
+
+module.exports = { client }
