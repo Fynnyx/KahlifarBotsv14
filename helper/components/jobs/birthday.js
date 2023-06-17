@@ -4,7 +4,7 @@ const { getMainDCUser } = require('../../api/dcuser');
 const { searchBirthday } = require('../../api/user');
 const { logToModConsole } = require('../../util/logToModConsole')
 
-const birthdayTask = cron.schedule('0 1,13 * * * ', async () => {
+const birthdayTask = cron.schedule('0 1 * * * ', async () => {
     try {
         const currentDate = new Date();
         const currentDay = currentDate.getDate();
