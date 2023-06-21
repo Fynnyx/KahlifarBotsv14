@@ -1,5 +1,10 @@
 const { kahlifarApiAxios } = require('../../loader/axios');
 
+async function getAllUsers() {
+    const users = await kahlifarApiAxios.get(`${process.env.API_URL}/users`)
+    return users.data;
+}
+
 async function getUser(userid) {
     const user = await kahlifarApiAxios.get(`${process.env.API_URL}/users/${userid}`, {
         headers: {
@@ -73,6 +78,7 @@ async function updateUser(id, userdata) {
 
 
 module.exports = {
+    getAllUsers,
     getUser,
     searchBirthday,
     registerUser,
