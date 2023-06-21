@@ -3,7 +3,9 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 const { EmbedBuilder, AuditLogEvent, ChatInputCommandInteraction, Client, PermissionFlagsBits } = require("discord.js")
 const { getDCUser, updateDCUser, registerDCUser } = require("../../helper/api/dcuser");
 const { registerNewUser } = require('../../helper/api/register');
-const { updateUser } = require('../../helper/api/user');
+const { updateUser, getAllUsers } = require('../../helper/api/user');
+const { createWallet } = require('../../helper/api/economy/wallet');
+const { createEconomyInventory } = require('../../helper/api/economy/inventory');
 
 module.exports = {
     developer: false,
@@ -20,6 +22,25 @@ module.exports = {
 
         try {
 
+            // const users = await getAllUsers();
+            // let counter = 0;
+            // for (const user of users) {
+            //     if (user && user.economyInventory == null) {
+            //         counter++;
+            //         const newWallet = await createWallet({
+            //             coins: 0,
+            //             emeralds: 0
+            //         });
+            //         if (newWallet.isError) return console.log(newWallet.message);;
+            //         const newEconomyInventory = await createEconomyInventory(newWallet.id, user.id)
+            //         if (newEconomyInventory.isError) return console.log(newEconomyInventory.message);
+            //     }
+            // }
+            // return interaction.editReply({ content: `Done! ${counter} users have been updated!` });
+
+
+            // ! --------------------------------------------
+
             // Cycle through all members and change the username of the user in the database to the current username
             const members = await interaction.guild.members.fetch();
             for (const member of members.values()) {
@@ -33,6 +54,7 @@ module.exports = {
                     continue;
                 };
 
+                if (apiUser.user.username === member.user.username) continue;
                 // Update the username
                 apiUser.user.username = member.user.username;
 
