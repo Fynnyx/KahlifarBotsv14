@@ -47,7 +47,7 @@ module.exports = {
                 const newMemberReturn = await registerNewUser(member);
                 if (newMemberReturn == true) {
                     embed.addFields(
-                        { name: 'Successfully registered new user', value: member.user.tag, inline: true }
+                        { name: 'Successfully registered new user', value: newMemberReturn.username, inline: true }
                     )
                 } else {
                     embed.addFields(
