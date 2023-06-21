@@ -31,8 +31,7 @@ module.exports = {
                 .setTimestamp()
 
             const apiUser = await getDCUser(member.id)
-            // client.logger.debug(apiUser)
-            if (!apiUser.isError) {
+            if (apiUser.isError !== true) {
                 embed.addFields(
                     { name: 'First joined', value: moment(new Date(apiUser.firstJoinDate)).format("DD.MM.YYYY HH:mm:ss"), inline: true },
                     { name: 'Last joined', value: moment(new Date(apiUser.lastJoinDate)).format("DD.MM.YYYY HH:mm:ss"), inline: true },

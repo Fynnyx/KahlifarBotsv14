@@ -1,3 +1,4 @@
+const { kahlifarApiAxios } = require('../../../loader/axios');
 
 async function getEconomyInventoryByUserId(user) {
     if (user.discordId) {
@@ -14,23 +15,24 @@ async function getEconomyInventoryByUserId(user) {
 async function createEconomyInventory(walletId, userId) {
     try {
         const newInventory = await kahlifarApiAxios.post(`${process.env.API_URL}/economy/inventories`, {
-            wallet: {
-                id: walletId
+                wallet: {
+                    id: walletId
+                },
+                user: {
+                    id: userId
+                }
             },
-            user: {
-                id: userId
-            }
-        },
             {
                 headers: {
                     API_KEY: process.env.API_KEY
                 }
             });
+        console.log(newInventory);
         return newInventory.data;
     } catch (error) {
         return {
             isError: true,
-            message: error.response.data.message
+            message: error.response.data.message || error.message
         }
     }
 }
