@@ -10,6 +10,9 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName("application")
         .setDescription("Apply for a project")
+        .setNameLocalizations({
+            "de": "bewerbung"
+        })
         .addSubcommand(subcommand =>
             subcommand
                 .setName("minecraft")

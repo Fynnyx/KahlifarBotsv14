@@ -9,6 +9,9 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('profile')
         .setDescription('Get all information about a user!')
+        .setNameLocalizations({
+            'de': 'profil'
+        })
         .addSubcommand(subcommand => subcommand
             .setName('get')
             .setDescription('Get all information about a user!')
