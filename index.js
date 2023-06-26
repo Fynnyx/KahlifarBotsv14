@@ -1,5 +1,5 @@
 const { Client, GatewayIntentBits, Partials, Collection } = require("discord.js")
-const logger = require("./loader/logger")
+const { logger } = require("./loader/logger")
 const dotenv = require("dotenv")
 const fs = require("fs")
 

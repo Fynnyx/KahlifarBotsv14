@@ -24,4 +24,21 @@ const logger = createLogger({
     ]
 });
 
-module.exports = logger;
+const commandLogger = createLogger({
+    level: 'info',
+    format: combine(
+        errors({ stack: true }),
+        timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
+        logFormat
+    ),
+    transports: [
+        new transports.File({
+            filename: './logs/commands.log'
+        })
+    ]
+});
+
+module.exports = {
+    logger,
+    commandLogger
+}

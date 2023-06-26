@@ -1,5 +1,5 @@
 function escapeFormatting(text) {
-    const formattingCharacters = ['*', '_', '~', '`'];
+    const formattingCharacters = ['*', '_', '~', '`', '#', '-'];
 
     // Iterate through each formatting character
     formattingCharacters.forEach(char => {

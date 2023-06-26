@@ -7,6 +7,9 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('help')
         .setDescription('Get help with the bot\'s commands!')
+        .setNameLocalizations({
+            'de': 'hilfe'
+        })
         .addStringOption(option => option
             .setName('command')
             .setDescription('The command to get help with.')
