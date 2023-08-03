@@ -148,7 +148,7 @@ module.exports = {
                 }
 
         } catch (error) {
-            client.logger.error(error);
+            client.logger.error(error.trace, error.message);
             await sendError(undefined, error, interaction, client);
         }
     }

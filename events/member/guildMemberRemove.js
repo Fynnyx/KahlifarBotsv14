@@ -87,7 +87,7 @@ module.exports = {
 
             return modConsole.send({ embeds: [embed] });
         } catch (error) {
-            client.logger.error(error);
+            client.logger.error(error.trace, error.message);
         }
     }
 }

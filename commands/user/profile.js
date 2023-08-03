@@ -235,7 +235,7 @@ module.exports = {
             }
             // interaction.editReply({ content: 'This command is still in development!' });
         } catch (error) {
-            client.logger.error(error);
+            client.logger.error(error.trace, error.message);
             await sendError(
                 "Error while executing command",
                 error.message,

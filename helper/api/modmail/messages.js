@@ -5,7 +5,7 @@ async function getAllMessages(client) {
         const response = await kahlifarApiAxios.get(`${process.env.API_URL}/modmail/messages`);
         return response.data;
     } catch (error) {
-        client.logger.error(error);
+        client.logger.error(error.trace, error.message);
         return {
             isError: true,
             message: error?.response?.data?.message
@@ -18,7 +18,7 @@ async function getMessageById(client, id) {
         const response = await kahlifarApiAxios.get(`${process.env.API_URL}/modmail/messages/${id}`);
         return response.data;
     } catch (error) {
-        client.logger.error(error);
+        client.logger.error(error.trace, error.message);
         return {
             isError: true,
             message: error?.response?.data?.message
@@ -31,7 +31,7 @@ async function createMessage(message, client) {
         const response = await kahlifarApiAxios.post(`${process.env.API_URL}/modmail/messages`, message);
         return response.data;
     } catch (error) {
-        client.logger.error(error);
+        client.logger.error(error.trace, error.message);
         return {
             isError: true,
             message: error?.response?.data?.message
@@ -44,7 +44,7 @@ async function updateMessage(messageId, message, client) {
         const response = await kahlifarApiAxios.put(`${process.env.API_URL}/modmail/messages/${messageId}`, message);
         return response.data;
     } catch (error) {
-        client.logger.error(error);
+        client.logger.error(error.trace, error.message);
         return {
             isError: true,
             message: error?.response?.data?.message
@@ -57,7 +57,7 @@ async function deleteMessage(messageId, client) {
         const response = await kahlifarApiAxios.delete(`${process.env.API_URL}/modmail/messages/${messageId}`);
         return response.data;
     } catch (error) {
-        client.logger.error(error);
+        client.logger.error(error.trace, error.message);
         return {
             isError: true,
             message: error?.response?.data?.message

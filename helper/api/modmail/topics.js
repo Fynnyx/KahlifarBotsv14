@@ -5,7 +5,7 @@ async function getAllTopics(client) {
         const response = await kahlifarApiAxios.get(`${process.env.API_URL}/modmail/topics`)
         return response.data;
     } catch (error) {
-        client.logger.error(error);
+        client.logger.error(error.trace, error.message);
         return {
             isError: true,
             error: error?.response?.data?.message
@@ -18,7 +18,7 @@ async function getTopic(topicId) {
         const response = await kahlifarApiAxios.get(`${process.env.API_URL}/modmail/topics/${topicId}`)
         return response.data;
     } catch (error) {
-        client.logger.error(error);
+        client.logger.error(error.trace, error.message);
         return {
             isError: true,
             error: error?.response?.data?.message
