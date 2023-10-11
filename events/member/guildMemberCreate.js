@@ -58,7 +58,7 @@ module.exports = {
             updateChannels(client)
             return modConsole.send({ embeds: [embed] });
         } catch (error) {
-            client.logger.error("In Member join/register\n"+error);
+            client.logger.error(error);
         }
     }
 }

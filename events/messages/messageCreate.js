@@ -23,7 +23,7 @@ module.exports = {
                 if (currentNumber !== lastNumber + 1) return message.delete();
             }
         } catch (error) {
-            client.logger.error("Error while messageCreate\n" + error)
+            client.logger.error(error)
         }
     },
 };

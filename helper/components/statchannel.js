@@ -14,7 +14,7 @@ async function updateChannels(client) {
                     }
                 })
                 .catch(async e => {
-                    client.logger.error("Stat Channel in discord not found. Creating new one")
+                    client.logger.info("Stat Channel in discord not found. Creating new one")
                     const category = client.channels.cache.get(statChannel.channelCategoryId)
                     const channel = await client.guilds.cache.get(client.config.guildId).channels.create({
                         name: "Creating new Statchannel",
@@ -38,7 +38,7 @@ async function updateChannels(client) {
                 })
         })
     } catch (e) {
-        client.logger.error(e.message)
+        client.logger.error(e)
     }
 }
 

@@ -28,7 +28,7 @@ module.exports = {
             }
             return logToModConsole("Message Deleted", `Message by \`${message.author.tag}\` deleted in ${message.channel} but we don't know by who.\n\n**Content:**\n${message.content}`, client.config.colors.yellow, client);
         } catch (error) {
-            client.logger.error("Error while messageDelete\n" + error)
+            client.logger.error(error)
         }
     },
 };

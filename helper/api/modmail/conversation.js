@@ -5,7 +5,7 @@ async function getConversation(conversationId, client) {
         const response = await kahlifarApiAxios.get(`${process.env.API_URL}/modmail/conversations/${conversationId}`)
         return response.data;
     } catch (error) {
-        client.logger.error(error.trace, error.message);
+        client.logger.error(error);
         return {
             isError: true,
             error: error?.response?.data?.message
@@ -18,7 +18,7 @@ async function createConversation(conversation, client) {
         const response = await kahlifarApiAxios.post(`${process.env.API_URL}/modmail/conversations`, conversation)
         return response.data;
     } catch (error) {
-        client.logger.error(error.trace, error.message);
+        client.logger.error(error);
         return {
             isError: true,
             error: error?.response?.data?.message
@@ -31,7 +31,7 @@ async function updateConversation(conversationId, conversation, client) {
         const response = await kahlifarApiAxios.put(`${process.env.API_URL}/modmail/conversations/${conversationId}`, conversation)
         return response.data;
     } catch (error) {
-        client.logger.error(error.trace, error.message);
+        client.logger.error(error);
         return {
             isError: true,
             error: error?.response?.data?.message
@@ -44,7 +44,7 @@ async function deleteConversation(conversationId, client) {
         const response = await kahlifarApiAxios.delete(`${process.env.API_URL}/modmail/conversations/${conversationId}`)
         return response.data;
     } catch (error) {
-        client.logger.error(error.trace, error.message);
+        client.logger.error(error);
         return {
             isError: true,
             error: error?.response?.data?.message
