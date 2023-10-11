@@ -49,7 +49,7 @@ async function streamNotification(name, client) {
             const update = await updateChannel(apiStream.id, apiStream);
         }
     } catch (error) {
-        client.logger.error(`Error while streamNotification\nWith Streamer ${name}\n` + error)
+        client.logger.error(error)
     }
 }
 

@@ -22,6 +22,9 @@ module.exports = {
 
         try {
 
+            // Make an error occur with stack trace
+            throw new Error('Test Error');
+
             // const users = await getAllUsers();
             // let counter = 0;
             // for (const user of users) {
@@ -42,29 +45,29 @@ module.exports = {
             // ! --------------------------------------------
 
             // Cycle through all members and change the username of the user in the database to the current username
-            const members = await interaction.guild.members.fetch();
-            for (const member of members.values()) {
-                // Check if the member is a bot
-                if (member.user.bot) continue;
+            // const members = await interaction.guild.members.fetch();
+            // for (const member of members.values()) {
+            //     // Check if the member is a bot
+            //     if (member.user.bot) continue;
 
-                // get the user from the database
-                const apiUser = await getDCUser(member.id);
-                if (apiUser.isError) {
-                    console.log(apiUser.message);
-                    continue;
-                };
+            //     // get the user from the database
+            //     const apiUser = await getDCUser(member.id);
+            //     if (apiUser.isError) {
+            //         console.log(apiUser.message);
+            //         continue;
+            //     };
 
-                if (apiUser.user.username === member.user.username) continue;
-                // Update the username
-                apiUser.user.username = member.user.username;
+            //     if (apiUser.user.username === member.user.username) continue;
+            //     // Update the username
+            //     apiUser.user.username = member.user.username;
 
-                // Update the user in the database
-                const update = await updateUser(apiUser.user.id, apiUser.user);
-                if (update.isError) {
-                    console.log(update.message);
-                    continue;
-                };
-            }
+            //     // Update the user in the database
+            //     const update = await updateUser(apiUser.user.id, apiUser.user);
+            //     if (update.isError) {
+            //         console.log(update.message);
+            //         continue;
+            //     };
+            // }
 
             // ! --------------------------------------------
 
@@ -93,6 +96,7 @@ module.exports = {
 
             interaction.editReply({ content: 'Done!' });
         } catch (error) {
+            client.logger.error(error);
             interaction.editReply({ content: 'An error occured!\n' + error });
         }
     }

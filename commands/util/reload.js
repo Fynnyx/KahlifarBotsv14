@@ -45,7 +45,7 @@ module.exports = {
                     break;
             }
         } catch (error) {
-            client.logger.error(`Error while reloading\n${error}`);
+            client.logger.error(error);
             await sendError("Reload", `Error while reloading\n${error}`, interaction, client)
         }
     }

@@ -27,7 +27,7 @@
     "glob": "^8.1.0",
     "moment": "^2.29.4",
     "node-cron": "^3.0.2",
-    "winston": "^3.9.0",
+    "winston": "^3.11.0",
     "winston-levelonly": "^1.0.3"
   }
 }

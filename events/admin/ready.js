@@ -21,7 +21,7 @@ module.exports = {
             client.logger.info(`${client.user.username}, logged in`)
             client.user.setActivity('to you and /help', { type: ActivityType.Listening })
         } catch (error) {
-            client.logger.error("Error while ready\n" + error)
+            client.logger.error(error)
         }
     },
 };

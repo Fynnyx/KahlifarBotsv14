@@ -22,7 +22,7 @@ const birthdayTask = cron.schedule('0 1 * * * ', async () => {
             await logToModConsole("Birthday today", `Today is **${member.displayName}'s** birthday! This is the \`${year}\`. year!`, client.config.colors.lightblue, client);
         }
     } catch (err) {
-        client.logger.error("BirthdayCron: " + err);
+        client.logger.error(err);
     }
 },
     {

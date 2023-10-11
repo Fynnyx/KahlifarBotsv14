@@ -1,6 +1,7 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { sendSuccess, sendError } = require('../../helper/util/send');
 const { PermissionFlagsBits } = require('discord.js');
+const { error } = require('winston');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -31,8 +32,8 @@ module.exports = {
                 messageCounter.notDeletable++;
             }
             return await sendSuccess("Deletion report", `${messageCounter.deleted} messages deleted.\n${messageCounter.notDeletable} messages could not be deleted.`, interaction, client);
-        } catch (e) {
-            client.logger.error(e.toString())
+        } catch (error) {
+            client.logger.error(error)
             return await sendError("Deletion Error", `${e.toString()}\n\n${messageCounter.deleted} message deleted.\n${messageCounter.notDeletable} messages could nt be deleted.`, interaction, client)
         }
     }

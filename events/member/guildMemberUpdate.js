@@ -11,7 +11,7 @@ module.exports = {
                 updateChannels(client)
             }
         } catch (error) {
-            client.logger.error("Error while guildMemberUpdate\n" + error)
+            client.logger.error(error)
         }
     }
 }
