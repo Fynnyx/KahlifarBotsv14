@@ -1,17 +1,12 @@
 const { format, createLogger, transports } = require('winston');
 const { combine, timestamp, printf, errors } = format;
 
-
-// const logFormat = printf(({ level, message, timestamp, err }) => {
-//     console.log(err);
-//     return `${timestamp} [${level}]: ${message}\n${err ? err.stack : ''}`;
-// });
-
 const logFormat = printf((info) => {
     let format = `${info.timestamp} [${info.level}]: ${info.message}`;
     if (['error'].includes(info.level)) {
         format += `\n${info.stack ? info.stack : ''}`;
     }
+    return format;
 });
 
 const logger = createLogger({
