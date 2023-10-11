@@ -99,7 +99,7 @@ async function getStreamData(name, client) {
 
 async function getFollowerData(streamerId, client) {
     try {
-        const { data } = await axios.get(`https://api.twitch.tv/helix/users/follows?to_id=${streamerId}`, requestData);
+        const { data } = await axios.get(`https://api.twitch.tv/helix/channels/followers?broadcaster_id=${streamerId}`, requestData);
         return data;
     } catch (error) {
         client.logger.error("Error while getFollowerData\n" + error)
