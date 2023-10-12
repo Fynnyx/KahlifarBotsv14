@@ -9,7 +9,7 @@ async function getDCUser(discordId) {
     } catch (error) {
         return {
             isError: true,
-            message: error.response.data.message
+            message: error?.response?.data?.message ? error.response.data.message : error.message
         };
     }
 }
@@ -21,7 +21,7 @@ async function registerDCUser(dcuser) {
     } catch (error) {
         return {
             isError: true,
-            message: error.response.data.message
+            message: error?.response?.data?.message ? error.response.data.message : error.message
         };
     }
 }
@@ -33,7 +33,7 @@ async function updateDCUser(dcuserId, dcuser) {
     } catch (error) {
         return {
             isError: true,
-            message: error.response.data.message
+            message: error?.response?.data?.message ? error.response.data.message : error.message
         };
     }
 }

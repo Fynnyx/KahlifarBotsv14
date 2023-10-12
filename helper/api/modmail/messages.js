@@ -8,7 +8,7 @@ async function getAllMessages(client) {
         client.logger.error(error);
         return {
             isError: true,
-            message: error?.response?.data?.message
+            message: error?.response?.data?.message ? error.response.data.message : error.message
         }
     }
 }
@@ -21,7 +21,7 @@ async function getMessageById(client, id) {
         client.logger.error(error);
         return {
             isError: true,
-            message: error?.response?.data?.message
+            message: error?.response?.data?.message ? error.response.data.message : error.message
         }
     }
 }
@@ -34,7 +34,7 @@ async function createMessage(message, client) {
         client.logger.error(error);
         return {
             isError: true,
-            message: error?.response?.data?.message
+            message: error?.response?.data?.message ? error.response.data.message : error.message
         }
     }
 }
@@ -47,7 +47,7 @@ async function updateMessage(messageId, message, client) {
         client.logger.error(error);
         return {
             isError: true,
-            message: error?.response?.data?.message
+            message: error?.response?.data?.message ? error.response.data.message : error.message
         }
     }
 }
@@ -60,7 +60,7 @@ async function deleteMessage(messageId, client) {
         client.logger.error(error);
         return {
             isError: true,
-            message: error?.response?.data?.message
+            message: error?.response?.data?.message ? error.response.data.message : error.message
         }
     }
 }

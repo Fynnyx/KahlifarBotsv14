@@ -32,7 +32,7 @@ async function createEconomyInventory(walletId, userId) {
     } catch (error) {
         return {
             isError: true,
-            message: error.response.data.message || error.message
+            message: error?.response?.data?.message ? error.response.data.message : error.message || error.message
         }
     }
 }

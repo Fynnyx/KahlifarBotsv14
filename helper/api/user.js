@@ -34,7 +34,7 @@ async function searchBirthday(day=null, month=null, year=null) {
     } catch (error) {
         return {
             isError: true,
-            message: error.response.data.message
+            message: error?.response?.data?.message ? error.response.data.message : error.message
         }
     }
 }
@@ -53,7 +53,7 @@ async function registerUser(username) {
     } catch (error) {
         return {
             isError: true,
-            message: error.response.data.message
+            message: error?.response?.data?.message ? error.response.data.message : error.message
         };
     }
 }
@@ -71,7 +71,7 @@ async function updateUser(id, userdata) {
     } catch(error) {
         return {
             isError: true,
-            message: error.response.data.message
+            message: error?.response?.data?.message ? error.response.data.message : error.message
         }
     }
 }

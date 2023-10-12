@@ -23,7 +23,6 @@ async function startStreamNotificationInterval(client) {
 
 async function streamNotification(name, client) {
     try {
-        if (name == "test") return
         requestData.headers.Authorization = `Bearer ${await getOAuthToken(client)}`;
         const apiStream = await getChannelByTwitchName(name);
         if (apiStream.isError) {
@@ -33,11 +32,16 @@ async function streamNotification(name, client) {
         if (!await channelIsLive(name, client)) return
         const streamData = await getStreamData(name, client);
         if (!streamData) return
-
+        if (client.config.helpers.streamNotification.bannedTitleWords.some(word => streamData.title.toLowerCase().includes(word.toLowerCase()))) return
         const channelData = await getChannelData(name, client);
         const followerData = await getFollowerData(streamData.user_id, client);
 
         const embed = await createStreamEmbed(apiStream, streamData, channelData, followerData, client);
+
+        // Check for same stream with same id and a stream that restarted 15 minutes after the last one started (to message spam)
+        const lastStreamDate = new Date(apiStream.lastStreamDate);
+        apiStream.lastStreamDate = new Date(streamData.started_at);
+        if (moment(new Date(streamData.started_at)).isBefore(moment(new Date(lastStreamDate)).add(15, "minutes"))) return
 
         if (apiStream.lastStreamId == streamData.id) {
             await updateStreamMessage(apiStream, embed, client);
@@ -64,7 +68,7 @@ async function getOAuthToken(client) {
         });
         return data.access_token;
     } catch (error) {
-        client.logger.error("Error while getOAuthToken\n" + error)
+        client.logger.error(error)
     }
 }
 
@@ -74,7 +78,7 @@ async function channelIsLive(name, client) {
         const { data } = await axios.get(`https://api.twitch.tv/helix/streams?user_login=${name}`, requestData);
         return data.data.length > 0;
     } catch (error) {
-        client.logger.error("Error while channelIsLive\n" + error)
+        client.logger.error(error)
     }
 }
 
@@ -84,7 +88,7 @@ async function getChannelData(name, client) {
         const { data } = await axios.get(`https://api.twitch.tv/helix/users?login=${name}`, requestData);
         return data.data[0];
     } catch (error) {
-        client.logger.error("Error while getChannelData\n" + error)
+        client.logger.error(error)
     }
 }
 
@@ -93,7 +97,7 @@ async function getStreamData(name, client) {
         const { data } = await axios.get(`https://api.twitch.tv/helix/streams?user_login=${name}`, requestData);
         return data.data[0];
     } catch (error) {
-        client.logger.error("Error while getStreamData\n" + error)
+        client.logger.error(error)
     }
 }
 
@@ -102,7 +106,7 @@ async function getFollowerData(streamerId, client) {
         const { data } = await axios.get(`https://api.twitch.tv/helix/channels/followers?broadcaster_id=${streamerId}`, requestData);
         return data;
     } catch (error) {
-        client.logger.error("Error while getFollowerData\n" + error)
+        client.logger.error(error)
     }
 }
 
@@ -117,14 +121,15 @@ async function createStreamEmbed(apiChannel, streamData, channelData, followerDa
         .setThumbnail(channelData.profile_image_url)
         .setImage(streamData.thumbnail_url.replace("{width}", "1920").replace("{height}", "1080"))
         .setFooter({
-            text: `Started at ${moment(streamData.started_at).format("DD.MM.YYYY HH:mm")}`
+            text: `Started at ${moment(streamData.started_at).format("DD.MM.YYYY HH:mm")} [${streamData.id}]`
         })
         .setTimestamp()
-        .addFields({
-            name: "Viewers",
-            value: streamData.viewer_count ? streamData.viewer_count.toString() : "*Could not be resolved*",
-            inline: true
-        },
+        .addFields(
+            {
+                name: "Viewers",
+                value: streamData.viewer_count ? streamData.viewer_count.toString() : "*Could not be resolved*",
+                inline: true
+            },
             {
                 name: "Language",
                 value: streamData.language ? streamData.language : "*Could not be resolved*",
@@ -148,7 +153,7 @@ async function createStreamEmbed(apiChannel, streamData, channelData, followerDa
                 .setLabel(`Watch ${streamData.user_name}`)
                 .setStyle(ButtonStyle.Link)
         )
-    const content = `${apiChannel.doPing ? `<@&${client.config.helpers.streamNotification.pingRole}>,` : ""} **${apiChannel.user ? `<@${(await getMainDCUser(apiChannel?.user?.discordUsers)).discordId}>` : streamData.user_name}** is live now!`
+    const content = `${apiChannel.doPing ? `<@&${client.config.helpers.streamNotification.pingRole}>,` : ""} **${apiChannel.user ? `<@${(await getMainDCUser(apiChannel?.user?.discordUsers)).discordId}>` : streamData.user_name}** is live now! (streaming ${streamData.game_name})`
     return { embed, row, content };
 }
 
@@ -167,13 +172,13 @@ async function updateStreamMessage(apiChannel, embed, client) {
                         await updateChannel(apiChannel.id, apiChannel);
                     })
             } catch (error) {
-                client.logger.error("Error while updateStreamMessage\n" + error)
+                client.logger.error(error)
             }
         }
 
 
     } catch (error) {
-        client.logger.error("Error while updateStreamMessage\n" + error)
+        client.logger.error(error)
     }
 }
 

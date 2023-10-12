@@ -8,7 +8,7 @@ async function getAllTopics(client) {
         client.logger.error(error);
         return {
             isError: true,
-            error: error?.response?.data?.message
+            error: error?.response?.data?.message ? error.response.data.message : error.message
         }
     }
 }
@@ -21,7 +21,7 @@ async function getTopic(topicId) {
         client.logger.error(error);
         return {
             isError: true,
-            error: error?.response?.data?.message
+            error: error?.response?.data?.message ? error.response.data.message : error.message
         }
     }
 }
