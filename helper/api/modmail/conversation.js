@@ -8,7 +8,7 @@ async function getConversation(conversationId, client) {
         client.logger.error(error);
         return {
             isError: true,
-            error: error?.response?.data?.message
+            error: error?.response?.data?.message ? error.response.data.message : error.message
         }
     }
 }
@@ -21,7 +21,7 @@ async function createConversation(conversation, client) {
         client.logger.error(error);
         return {
             isError: true,
-            error: error?.response?.data?.message
+            error: error?.response?.data?.message ? error.response.data.message : error.message
         }
     }
 }
@@ -34,7 +34,7 @@ async function updateConversation(conversationId, conversation, client) {
         client.logger.error(error);
         return {
             isError: true,
-            error: error?.response?.data?.message
+            error: error?.response?.data?.message ? error.response.data.message : error.message
         }
     }
 }
@@ -47,7 +47,7 @@ async function deleteConversation(conversationId, client) {
         client.logger.error(error);
         return {
             isError: true,
-            error: error?.response?.data?.message
+            error: error?.response?.data?.message ? error.response.data.message : error.message
         }
     }
 }

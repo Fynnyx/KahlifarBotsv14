@@ -8,7 +8,7 @@ async function getAllChannels() {
     } catch (error) {
         return {
             isError: true,
-            message: error?.response?.data?.message
+            message: error?.response?.data?.message ? error.response.data.message : error.message
         };
     }
 }
@@ -20,7 +20,7 @@ async function getChannelById(id) {
     } catch (error) {
         return {
             isError: true,
-            message: error.response.data.message
+            message: error?.response?.data?.message ? error.response.data.message : error.message
         };
     }
 }
@@ -32,7 +32,7 @@ async function getChannelByTwitchName(twitchName) {
     } catch (error) {
         return {
             isError: true,
-            message: error.response.data.message
+            message: error?.response?.data?.message ? error.response.data.message : error.message
         };
     }
 }
@@ -44,7 +44,7 @@ async function createChannel(channelData) {
     } catch (error) {
         return {
             isError: true,
-            message: error.response.data.message
+            message: error?.response?.data?.message ? error.response.data.message : error.message
         };
     }
 }
@@ -57,7 +57,7 @@ async function updateChannel(id, channelData) {
     } catch (error) {
         return {
             isError: true,
-            message: error.response.data.message
+            message: error?.response?.data?.message ? error.response.data.message : error.message
         };
     }
 }
@@ -68,7 +68,7 @@ async function deleteChannel(id) {
     } catch (error) {
         return {
             isError: true,
-            message: error.response.data.message
+            message: error?.response?.data?.message ? error.response.data.message : error.message
         };
     }
 }

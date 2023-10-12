@@ -21,7 +21,7 @@ async function createWallet(balance = { coins: 0, emeralds: 0 }) {
     } catch (error) {
         return {
             isError: true,
-            message: error.response.data.message
+            message: error?.response?.data?.message ? error.response.data.message : error.message
         }
     }
 }

@@ -30,7 +30,14 @@
         },
         "streamNotification": {
             "pingRole": "941712142112002048",
-            "interval": 0.5
+            "interval": 0.5,
+            "bannedTitleWords": [
+                "test",
+                "rebroadcast",
+                "replay",
+                "re-run",
+                "rerun"
+            ]
         }
     },
     "roles": {
