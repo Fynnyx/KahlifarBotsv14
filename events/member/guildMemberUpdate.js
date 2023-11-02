@@ -15,19 +15,30 @@ module.exports = {
                 const limiterRolePattern = /^◼+ *- *(.+?) *- *◼+$/;
                 const limiterRoles = guild.roles.cache.filter(role => limiterRolePattern.test(role.name));
 
-                console.log(limiterRoles);
                 if (limiterRoles.size > 0) {
-                    const currentRoles = member.roles.cache;
+                    member = await member.fetch()
+                    const currentRoles = member.roles.cache
+                    const guildRoles = guild.roles.cache
+
+                    // Find where position is the highest
                     const highestRole = member.roles.highest;
+                    
+                    // find position in guild and add all limiter roles below the highest member role 
+                    const highestGuildRole = guildRoles.find(role => role.id === highestRole.id)
+                    const highestRolePosition = highestGuildRole.position;
+                    // find all limiter roles below the highest member role
+                    const limiterRolesBelowHighest = limiterRoles.filter(role => role.position < highestRolePosition);
 
-                    const rolesBelowHighest = limiterRoles.filter(role => role.position < highestRole.position && currentRoles.has(role.id));
+                    // add all missing limiter roles below the highest member role
+                    const missingLimiterRoles = limiterRolesBelowHighest.filter(role => !currentRoles.has(role.id));
+                    if (missingLimiterRoles.size > 0) {
+                        member.roles.add(missingLimiterRoles);
+                    }
 
-                    const missingRoles = limiterRoles.filter(role => !rolesBelowHighest.has(role.id));
-                    console.log(missingRoles);
-                    if (missingRoles.size > 0) {
-                        missingRoles.forEach(role => {
-                            member.roles.add(role)
-                        });
+                    // Remove limiter role if it is the highest
+                    const limiterRoleToRemove = limiterRoles.find(role => role.position === highestRolePosition);
+                    if (limiterRoleToRemove && currentRoles.has(limiterRoleToRemove.id)) {
+                        member.roles.remove(limiterRoleToRemove);
                     }
                 }
             }
