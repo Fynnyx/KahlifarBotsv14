@@ -1,11 +1,13 @@
-import { SlashCommandBuilder } from "discord.js";
+import { ChatInputCommandInteraction, SlashCommandBuilder } from "discord.js";
+import CustomClient from "./CustomClient";
 
-export class CustomCommand extends SlashCommandBuilder{
+export class CustomCommand{
     developerOnly: boolean;
-    execute: (...args: any[]) => void;
+    data: SlashCommandBuilder;
+    execute: (interaction: ChatInputCommandInteraction, client: CustomClient<true>) => void;
     constructor(developerOnly: boolean, data: SlashCommandBuilder, execute: (...args: any[]) => void) {
-        super(data);
         this.developerOnly = developerOnly;
+        this.data = data;
         this.execute = execute;
     }
 }

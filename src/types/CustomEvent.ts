@@ -5,7 +5,7 @@ export class CustomEvent {
     name: Events;
     usage: string = "";
     once: boolean = false;
-    execute: (client: CustomClient, ...args: any[]) => void;
+    execute: (client: CustomClient<true>, ...args: any[]) => void;
     constructor(name: Events, usage: string, once: boolean, execute: (...args: any[]) => void) {
         this.name = name;
         this.usage = usage;
