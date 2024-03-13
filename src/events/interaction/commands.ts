@@ -13,7 +13,7 @@ export default new CustomEvent(
         if (!command) return;
 
         try {
-            command.execute(interaction, client);
+            command.execute(interaction as ChatInputCommandInteraction, client);
         } catch (error) {
             console.error(error);
             interaction.reply({ content: "There was an error while executing this command!", ephemeral: true });
