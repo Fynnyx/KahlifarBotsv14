@@ -1,33 +1,24 @@
 {
-  "name": "kahlifarbotv14",
+  "name": "kahlifarbotsv14",
   "version": "1.0.0",
-  "description": "Discord Bot for Kahlifar",
-  "main": "index.js",
-  "type": "commonjs",
+  "description": "A community bot written in typescript",
+  "main": "index.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js",
-    "dev": "nodemon --trace-warnings index.js"
+    "dev": "tsx watch src/index.ts",
+    "start": "node dist/index.js",
+    "build": "tsup src/index.ts --minify"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Kahlifar/KahlifarBotsv14.git"
-  },
-  "author": "Fynnyx",
-  "license": "Apache-2.0",
-  "bugs": {
-    "url": "https://github.com/Kahlifar/KahlifarBotsv14/issues"
-  },
-  "homepage": "https://github.com/Kahlifar/KahlifarBotsv14#kahlifarbotsv14",
+  "author": "",
+  "license": "ISC",
   "dependencies": {
-    "ascii-table3": "^0.8.2",
-    "axios": "^1.3.4",
-    "discord.js": "^14.10.2",
-    "dotenv": "^16.0.3",
-    "glob": "^8.1.0",
-    "moment": "^2.29.4",
-    "node-cron": "^3.0.2",
-    "winston": "^3.11.0",
-    "winston-levelonly": "^1.0.3"
+    "ascii-table3": "^0.9.0",
+    "discord.js": "^14.14.1",
+    "dotenv": "^16.4.5",
+    "glob": "^10.3.10"
+  },
+  "devDependencies": {
+    "tsup": "^8.0.2",
+    "tsx": "^4.7.1",
+    "typescript": "^5.4.2"
   }
 }
